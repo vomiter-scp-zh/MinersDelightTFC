@@ -165,8 +165,11 @@ public abstract class CopperPotBlockEntityMixin extends BlockEntity {
                 : FoodItemContainerApply.applyGeneral(serving, container);
     }
 
+    /*
     @WrapOperation(method = {"canCook", "processCooking"}, at = @At(value = "INVOKE", target = "Ljava/util/HashMap;containsKey(Ljava/lang/Object;)Z"))
     private boolean mdfc$disableConversion(HashMap instance, Object key, Operation<Boolean> original){
         return false;
     }
+
+     */
 }
