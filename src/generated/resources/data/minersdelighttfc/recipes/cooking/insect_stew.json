@@ -1,0 +1,49 @@
+{
+  "type": "farmersdelight:cooking",
+  "cookingtime": 200,
+  "experience": 1.0,
+  "ingredients": [
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "tag": "tfc:soups"
+      }
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": [
+        {
+          "item": "miners_delight:arthropod"
+        },
+        {
+          "item": "miners_delight:silverfish_eggs"
+        }
+      ]
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": [
+        {
+          "item": "miners_delight:arthropod"
+        },
+        {
+          "item": "miners_delight:silverfish_eggs"
+        }
+      ]
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": [
+        {
+          "item": "miners_delight:arthropod"
+        },
+        {
+          "item": "miners_delight:silverfish_eggs"
+        }
+      ]
+    }
+  ],
+  "result": {
+    "item": "miners_delight:insect_stew"
+  }
+}

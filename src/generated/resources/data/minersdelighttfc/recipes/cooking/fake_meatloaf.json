@@ -1,0 +1,48 @@
+{
+  "type": "farmersdelight:cooking",
+  "container": {
+    "item": "minecraft:bowl"
+  },
+  "cookingtime": 400,
+  "experience": 2.0,
+  "fluid": {
+    "amount": 200,
+    "ingredient": {
+      "tag": "survivorsdelight:cooking_oils"
+    }
+  },
+  "ingredients": [
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "tag": "miners_delight:baked_cave_carrot"
+      }
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "tag": "miners_delight:baked_cave_carrot"
+      }
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": [
+        {
+          "item": "miners_delight:baked_cave_carrot"
+        },
+        {
+          "item": "minecraft:carrot"
+        }
+      ]
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "tag": "tfc:foods/vegetables"
+      }
+    }
+  ],
+  "result": {
+    "item": "miners_delight:fake_meatloaf"
+  }
+}

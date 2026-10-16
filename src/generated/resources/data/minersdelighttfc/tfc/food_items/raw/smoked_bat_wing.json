@@ -1,0 +1,10 @@
+{
+  "ingredient": {
+    "item": "miners_delight:smoked_bat_wing"
+  },
+  "hunger": 2,
+  "saturation": 0.5,
+  "water": 0.0,
+  "decay_modifier": 2.3,
+  "protein": 0.8
+}

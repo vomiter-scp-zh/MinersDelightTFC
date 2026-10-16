@@ -1,0 +1,29 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "item": "miners_delight:baked_squid"
+      }
+    }
+  ],
+  "result": [
+    {
+      "modifiers": [
+        "tfc:copy_food"
+      ],
+      "stack": {
+        "count": 3,
+        "item": "miners_delight:baked_tentacles"
+      }
+    },
+    {
+      "chance": 0.5,
+      "item": "miners_delight:baked_tentacles"
+    }
+  ],
+  "tool": {
+    "tag": "forge:tools/knives"
+  }
+}

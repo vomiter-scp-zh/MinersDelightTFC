@@ -1,0 +1,36 @@
+{
+  "type": "farmersdelight:cooking",
+  "container": {
+    "item": "minecraft:bowl"
+  },
+  "cookingtime": 200,
+  "experience": 1.0,
+  "fluid": {
+    "amount": 100,
+    "ingredient": {
+      "tag": "survivorsdelight:cooking_oils"
+    }
+  },
+  "ingredients": [
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": [
+        {
+          "item": "miners_delight:cooked_arthropod"
+        },
+        {
+          "item": "miners_delight:crunchy_bar"
+        }
+      ]
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "item": "miners_delight:weird_caviar"
+      }
+    }
+  ],
+  "result": {
+    "item": "miners_delight:seasoned_arthropods"
+  }
+}

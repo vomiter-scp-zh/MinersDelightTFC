@@ -1,0 +1,56 @@
+{
+  "type": "survivorsdelight:nutrition_crafting_shapeless",
+  "ingredients": [
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "item": "miners_delight:cooked_arthropod"
+      }
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "item": "miners_delight:cooked_arthropod"
+      }
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "item": "miners_delight:cooked_arthropod"
+      }
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": [
+        {
+          "item": "miners_delight:cooked_arthropod"
+        },
+        {
+          "item": "miners_delight:silverfish_eggs"
+        }
+      ]
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "item": "miners_delight:silverfish_eggs"
+      }
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "item": "miners_delight:silverfish_eggs"
+      }
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "item": "miners_delight:silverfish_eggs"
+      }
+    }
+  ],
+  "result": {
+    "count": 4,
+    "item": "miners_delight:crunchy_bar"
+  }
+}
