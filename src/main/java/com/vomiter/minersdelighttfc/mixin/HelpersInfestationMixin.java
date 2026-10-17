@@ -3,6 +3,7 @@ package com.vomiter.minersdelighttfc.mixin;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.vomiter.minersdelighttfc.entity.SilverfishInfestation;
 import net.dries007.tfc.common.entities.TFCEntities;
 import net.dries007.tfc.common.entities.prey.Pest;
 import net.dries007.tfc.util.Helpers;
@@ -45,10 +46,10 @@ public abstract class HelpersInfestationMixin {
             require = 1
     )
     private static int minersdelighttfc$countSilverfish(int pests, Level level, BlockPos pos,
-                                                       int infestation, @Nullable Player player) {
+                                                        int infestation, @Nullable Player player) {
         return minersdelighttfc$depth(level, pos) >= minersdelighttfc$MIN_DEPTH
                 ? pests + level.getEntitiesOfClass(Silverfish.class,
-                        new AABB(pos).inflate(minersdelighttfc$PEST_RANGE)).size()
+                new AABB(pos).inflate(minersdelighttfc$PEST_RANGE)).size()
                 : pests;
     }
 
@@ -59,9 +60,9 @@ public abstract class HelpersInfestationMixin {
             require = 1
     )
     private static void minersdelighttfc$replaceRat(Optional<EntityType<?>> selected,
-                                                   Consumer<? super EntityType<?>> spawn,
-                                                   Operation<Void> original, Level level, BlockPos pos,
-                                                   int infestation, @Nullable Player player) {
+                                                    Consumer<? super EntityType<?>> spawn,
+                                                    Operation<Void> original, Level level, BlockPos pos,
+                                                    int infestation, @Nullable Player player) {
         int depth = minersdelighttfc$depth(level, pos);
         if (depth < minersdelighttfc$MIN_DEPTH || selected.isEmpty()
                 || selected.get() != TFCEntities.RAT.get()) {
@@ -87,10 +88,14 @@ public abstract class HelpersInfestationMixin {
                     || !server.noCollision(silverfish)) continue;
             ForgeEventFactory.onFinalizeSpawn(silverfish, server,
                     server.getCurrentDifficultyAt(BlockPos.containing(target)), MobSpawnType.EVENT, null, null);
+            SilverfishInfestation.setOrigin(silverfish, pos);
             spawned |= server.addFreshEntity(silverfish);
         }
-        if (spawned && player != null) {
-            player.displayClientMessage(Component.translatable("tfc.tooltip.infestation"), true);
+        if (spawned) {
+            SilverfishInfestation.addEggs(server, pos);
+            if (player != null) {
+                player.displayClientMessage(Component.translatable("tfc.tooltip.infestation"), true);
+            }
         }
     }
 

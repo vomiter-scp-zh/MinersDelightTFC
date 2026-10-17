@@ -4,6 +4,7 @@
   "package": "com.vomiter.minersdelighttfc.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "HelpersInfestationMixin",
     "CopperPotBlockEntityAccessor",
     "CopperPotBlockEntityFluidMixin",
     "CopperPotBlockEntityMixin",
