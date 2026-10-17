@@ -1,0 +1,18 @@
+{
+  "type": "miners_delight:add_items",
+  "conditions": [
+    {
+      "condition": "minersdelighttfc:piercing_damage"
+    },
+    {
+      "condition": "minecraft:entity_properties",
+      "entity": "this",
+      "predicate": {
+        "type": "minecraft:spider"
+      }
+    }
+  ],
+  "item": "miners_delight:arthropod",
+  "max": 3,
+  "min": 1
+}

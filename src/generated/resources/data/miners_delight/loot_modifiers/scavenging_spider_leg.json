@@ -1,0 +1,32 @@
+{
+  "type": "miners_delight:add_items",
+  "conditions": [
+    {
+      "condition": "minersdelighttfc:piercing_damage"
+    },
+    {
+      "condition": "minecraft:entity_properties",
+      "entity": "this",
+      "predicate": {
+        "flags": {
+          "is_on_fire": false
+        }
+      }
+    },
+    {
+      "condition": "minecraft:entity_properties",
+      "entity": "this",
+      "predicate": {
+        "type": "minecraft:spider"
+      }
+    },
+    {
+      "chance": 0.4,
+      "condition": "minecraft:random_chance_with_looting",
+      "looting_multiplier": 0.1
+    }
+  ],
+  "item": "miners_delight:spider_leg",
+  "max": 4,
+  "min": 0
+}

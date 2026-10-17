@@ -1,0 +1,17 @@
+{
+  "type": "farmersdelight:add_item",
+  "conditions": [
+    {
+      "condition": "minersdelighttfc:piercing_damage"
+    },
+    {
+      "condition": "minecraft:entity_properties",
+      "entity": "this",
+      "predicate": {
+        "type": "minecraft:silverfish"
+      }
+    }
+  ],
+  "count": 1,
+  "item": "miners_delight:arthropod"
+}

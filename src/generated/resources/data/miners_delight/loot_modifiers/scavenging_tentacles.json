@@ -1,0 +1,33 @@
+{
+  "type": "miners_delight:add_items",
+  "conditions": [
+    {
+      "condition": "minecraft:inverted",
+      "term": {
+        "condition": "minersdelighttfc:piercing_damage"
+      }
+    },
+    {
+      "condition": "minecraft:alternative",
+      "terms": [
+        {
+          "condition": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "type": "minecraft:glow_squid"
+          }
+        },
+        {
+          "condition": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "type": "minecraft:squid"
+          }
+        }
+      ]
+    }
+  ],
+  "item": "miners_delight:tentacles",
+  "max": 3,
+  "min": 1
+}

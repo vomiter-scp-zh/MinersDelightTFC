@@ -6,10 +6,10 @@
   "result": {
     "item": "minersdelighttfc:copper_cup"
   },
-  "tier": 1,
   "rules": [
     "bend_last",
     "bend_second_last",
     "bend_third_last"
-  ]
+  ],
+  "tier": 1
 }

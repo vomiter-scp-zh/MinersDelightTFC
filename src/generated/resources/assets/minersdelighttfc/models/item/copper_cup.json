@@ -1,6 +1,6 @@
 {
-  "loader": "tfc:contained_fluid",
   "parent": "forge:item/default",
+  "loader": "tfc:contained_fluid",
   "textures": {
     "base": "miners_delight:item/copper_cup",
     "fluid": "minersdelighttfc:item/copper_cup_fluid"

@@ -1,0 +1,17 @@
+{
+  "type": "farmersdelight:add_item",
+  "conditions": [
+    {
+      "condition": "minersdelighttfc:piercing_damage"
+    },
+    {
+      "condition": "minecraft:entity_properties",
+      "entity": "this",
+      "predicate": {
+        "type": "minecraft:glow_squid"
+      }
+    }
+  ],
+  "count": 1,
+  "item": "miners_delight:glow_squid"
+}
