@@ -27,7 +27,7 @@
     {
       "type": "tfc:not_rotten",
       "ingredient": {
-        "tag": "survivorsdelight:fruit_for_cheesecake"
+        "tag": "tfc:foods/fruits"
       }
     },
     {

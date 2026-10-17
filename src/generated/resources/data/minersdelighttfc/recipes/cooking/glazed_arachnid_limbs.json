@@ -19,6 +19,12 @@
       }
     },
     {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "item": "miners_delight:baked_spider_leg"
+      }
+    },
+    {
       "tag": "tfc:sweetener"
     },
     {
@@ -30,13 +36,13 @@
     {
       "type": "tfc:not_rotten",
       "ingredient": {
-        "tag": "survivorsdelight:fruit_for_cheesecake"
+        "tag": "tfc:foods/fruits"
       }
     },
     {
       "type": "tfc:not_rotten",
       "ingredient": {
-        "tag": "survivorsdelight:fruit_for_cheesecake"
+        "tag": "tfc:foods/fruits"
       }
     }
   ],

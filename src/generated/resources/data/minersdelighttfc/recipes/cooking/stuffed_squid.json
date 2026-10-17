@@ -45,7 +45,7 @@
     {
       "type": "tfc:not_rotten",
       "ingredient": {
-        "tag": "forge:eggs"
+        "item": "tfc:food/boiled_egg"
       }
     }
   ],

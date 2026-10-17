@@ -1,0 +1,10 @@
+{
+  "ingredient": {
+    "item": "miners_delight:baked_tentacles"
+  },
+  "hunger": 4,
+  "saturation": 1.0,
+  "water": 0.0,
+  "decay_modifier": 2.3,
+  "protein": 1.5
+}

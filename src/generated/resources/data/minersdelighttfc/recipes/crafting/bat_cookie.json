@@ -1,0 +1,27 @@
+{
+  "type": "survivorsdelight:nutrition_crafting_shapeless",
+  "ingredients": [
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "item": "miners_delight:smoked_bat_wing"
+      }
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "tag": "tfc:foods/dough"
+      }
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "tag": "tfc:foods/dough"
+      }
+    }
+  ],
+  "result": {
+    "count": 8,
+    "item": "miners_delight:bat_cookie"
+  }
+}

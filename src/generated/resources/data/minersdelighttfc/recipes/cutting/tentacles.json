@@ -1,0 +1,24 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "item": "tfc:food/calamari"
+      }
+    }
+  ],
+  "result": [
+    {
+      "modifiers": [
+        "tfc:copy_food"
+      ],
+      "stack": {
+        "item": "miners_delight:tentacles"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "forge:tools/knives"
+  }
+}

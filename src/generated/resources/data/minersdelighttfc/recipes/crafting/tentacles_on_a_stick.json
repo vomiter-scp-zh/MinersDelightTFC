@@ -1,0 +1,33 @@
+{
+  "type": "survivorsdelight:nutrition_crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:rods/wooden"
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": [
+        {
+          "item": "miners_delight:baked_tentacles"
+        },
+        {
+          "item": "tfc:food/cooked_calamari"
+        }
+      ]
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": [
+        {
+          "item": "miners_delight:baked_tentacles"
+        },
+        {
+          "item": "tfc:food/cooked_calamari"
+        }
+      ]
+    }
+  ],
+  "result": {
+    "item": "miners_delight:tentacles_on_a_stick"
+  }
+}

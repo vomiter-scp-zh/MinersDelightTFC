@@ -15,7 +15,7 @@
     {
       "type": "tfc:not_rotten",
       "ingredient": {
-        "item": "minecraft:baked_potato"
+        "item": "tfc:food/baked_potato"
       }
     },
     {

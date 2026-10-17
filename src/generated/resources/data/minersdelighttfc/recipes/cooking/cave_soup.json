@@ -12,13 +12,13 @@
     {
       "type": "tfc:not_rotten",
       "ingredient": {
-        "item": "minecraft:red_mushroom"
+        "item": "tfc:food/taro_root"
       }
     },
     {
       "type": "tfc:not_rotten",
       "ingredient": {
-        "item": "minecraft:brown_mushroom"
+        "item": "tfc:food/cattail_root"
       }
     },
     {

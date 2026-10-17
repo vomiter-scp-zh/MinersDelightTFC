@@ -1,0 +1,20 @@
+{
+  "type": "survivorsdelight:nutrition_crafting_shapeless",
+  "ingredients": [
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "tag": "tfc:foods/breads"
+      }
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "item": "miners_delight:baked_squid"
+      }
+    }
+  ],
+  "result": {
+    "item": "miners_delight:squid_sandwich"
+  }
+}

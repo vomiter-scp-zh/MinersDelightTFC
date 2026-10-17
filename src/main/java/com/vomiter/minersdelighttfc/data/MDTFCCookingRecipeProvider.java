@@ -13,16 +13,21 @@ import com.vomiter.survivorsdelight.data.tags.SDTags;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.items.Food;
+import net.dries007.tfc.common.items.TFCItems;
+import net.dries007.tfc.util.Metal;
 import net.dries007.tfc.common.recipes.ingredients.NotRottenIngredient;
 import net.dries007.tfc.common.recipes.outputs.CopyFoodModifier;
 import net.dries007.tfc.common.recipes.outputs.ItemStackProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluid;
@@ -40,11 +45,11 @@ import javax.annotation.Nullable;
 
 public final class MDTFCCookingRecipeProvider extends RecipeProvider {
     private static final TagKey<Fluid> OILS = SDTags.FluidTags.COOKING_OILS;
-    private static final TagKey<Fluid> MILKS = SDTags.FluidTags.TFC_MILKS;
+    private static final TagKey<Item> TFC_BREADS = ItemTags.create(ResourceLocation.fromNamespaceAndPath("tfc", "foods/breads"));
 
     private static final Ingredient BAKED_CAVE_CARROT = Ingredient.of(MDTags.BAKED_CAVE_CARROT);
     private static final Ingredient PASTA = Ingredient.of(CommonTags.Items.PASTA);
-    private static final Ingredient BROWN_MUSHROOM = Ingredient.of(Items.BROWN_MUSHROOM);
+    private static final Ingredient FORAGED_ROOT = Ingredient.of(SDUtils.getTFCFoodItem(Food.CATTAIL_ROOT));
     private static final Ingredient BAT_WING = Ingredient.of(MDTags.BAT_WING);
     private static final Ingredient TFC_VEGETABLES = Ingredient.of(SDTags.ItemTags.TFC_VEGETABLES);
     private static final Ingredient ARTHROPOD_OR_EGGS = Ingredient.of(
@@ -59,6 +64,21 @@ public final class MDTFCCookingRecipeProvider extends RecipeProvider {
     private static final Ingredient SOUPS = Ingredient.of(ItemTags.create(ResourceLocation.fromNamespaceAndPath("tfc","soups")));
     private static final Ingredient KNIVES = Ingredient.of(CommonTags.Items.TOOLS_KNIVES);
     private static final Ingredient SHEARS = Ingredient.of(Tags.Items.SHEARS);
+    private static final Ingredient TFC_BREAD = Ingredient.of(TFC_BREADS);
+    private static final Ingredient COOKED_TENTACLES = Ingredient.of(MDItems.BAKED_TENTACLES.get(),
+            SDUtils.getTFCFoodItem(Food.COOKED_CALAMARI));
+    private static final Ingredient BURGER_FILLING = Ingredient.of(MDItems.CRUNCHY_BAR.get(), MDItems.VEGAN_PATTY.get());
+    private static final Ingredient CAVE_BURGER_TOPPING = Ingredient.of(MDItems.BAKED_TENTACLES.get(),
+            MDItems.BAKED_CAVE_CARROT.get());
+    private static final Ingredient COOKED_INSECTS = Ingredient.of(MDItems.COOKED_ARTHROPOD.get(), MDItems.BAKED_SPIDER_LEG.get());
+    private static final Ingredient INSECT_SPREAD = Ingredient.of(MDItems.COOKED_ARTHROPOD.get(),
+            MDItems.BAKED_SPIDER_LEG.get(), MDItems.WEIRD_CAVIAR.get());
+    private static final Ingredient WRAP_FILLING = Ingredient.of(SDUtils.getTFCFoodItem(Food.ONION),
+            MDItems.ARTHROPOD.get(), MDItems.SPIDER_LEG.get(), MDItems.COOKED_ARTHROPOD.get(), MDItems.BAKED_SPIDER_LEG.get());
+    private static final ItemLike COPPER_DOUBLE_SHEET = TFCItems.METAL_ITEMS.get(Metal.Default.COPPER)
+            .get(Metal.ItemType.DOUBLE_SHEET).get();
+    private static final ItemLike GOLD_INGOT = TFCItems.METAL_ITEMS.get(Metal.Default.GOLD)
+            .get(Metal.ItemType.INGOT).get();
 
     private final String modid;
     private final SDFoodAndRecipeGenerator foodAndRecipes;
@@ -81,6 +101,9 @@ public final class MDTFCCookingRecipeProvider extends RecipeProvider {
     protected void buildRecipes(@NotNull Consumer<FinishedRecipe> output) {
         saveBaseFoodData();
         saveIngredientRecipes(output);
+        saveAssemblyRecipes(output);
+        saveEffectFoodRecipes(output);
+        saveUtilityRecipes(output);
 
         recipe("pasta_with_veggieballs", MDItems.PASTA_WITH_VEGGIEBALLS.get(), null, 400, 2F)
                 .food(BAKED_CAVE_CARROT)
@@ -90,8 +113,8 @@ public final class MDTFCCookingRecipeProvider extends RecipeProvider {
 
         recipe("cave_soup", MDItems.CAVE_SOUP.get(), null, 200, 1F)
                 .food(Ingredient.of(MDTags.CAVE_CARROTS_VEGETABLE_ITEM))
-                .food(Ingredient.of(Items.RED_MUSHROOM))
-                .food(BROWN_MUSHROOM)
+                .food(Food.TARO_ROOT)
+                .food(FORAGED_ROOT)
                 .food(SOUPS)
                 .build(output).saveFoodData();
 
@@ -123,7 +146,7 @@ public final class MDTFCCookingRecipeProvider extends RecipeProvider {
         recipe("fake_meatloaf", MDBlocks.FAKE_MEATLOAF.get(), Items.BOWL, 400, 2F)
                 .food(BAKED_CAVE_CARROT)
                 .food(BAKED_CAVE_CARROT)
-                .food(Ingredient.of(MDItems.BAKED_CAVE_CARROT.get(), Items.CARROT))
+                .food(Ingredient.of(MDItems.BAKED_CAVE_CARROT.get(), SDUtils.getTFCFoodItem(Food.CARROT)))
                 .food(TFC_VEGETABLES)
                 .fluid(OILS, 200).build(output).saveFoodData();
 
@@ -140,26 +163,27 @@ public final class MDTFCCookingRecipeProvider extends RecipeProvider {
                 .food(Ingredient.of(MDItems.CAVE_CARROT.get()))
                 .food(Food.ONION)
                 .food(TFC_VEGETABLES)
-                .food(Ingredient.of(Tags.Items.EGGS))
+                .food(Food.BOILED_EGG)
                 .fluid(OILS, 100).build(output).saveFoodData();
 
         recipe("glow_ink_pasta", MDItems.GLOW_INK_PASTA.get(), Items.BOWL, 400, 2F)
                 .food(Food.CALAMARI)
                 .food(PASTA)
-                .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
+                .food(SDTags.ItemTags.TFC_FRUITS)
                 .nonfood(Ingredient.of(Items.GLOW_INK_SAC))
                 .fluid(OILS, 100).build(output).saveFoodData();
 
         recipe("glazed_arachnid_limbs", MDBlocks.GLAZED_ARACHNID_LIMBS.get(), Items.BOWL, 400, 2F)
                 .food(BAKED_SPIDER_LEG)
+                .food(BAKED_SPIDER_LEG)
                 .nonfood(SDTags.ItemTags.TFC_SWEETENER)
                 .food(SDTags.ItemTags.TFC_GRAINS)
-                .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
-                .food(SDTags.ItemTags.FRUIT_FOR_CHEESECAKE)
+                .food(SDTags.ItemTags.TFC_FRUITS)
+                .food(SDTags.ItemTags.TFC_FRUITS)
                 .fluid(OILS, 100).build(output).saveFoodData();
 
         recipe("vegan_steak_and_potatoes", MDItems.VEGAN_STEAK_AND_POTATOES.get(), Items.BOWL, 300, 1.5F)
-                .food(Ingredient.of(Items.BAKED_POTATO))
+                .food(Food.BAKED_POTATO)
                 .food(BAKED_CAVE_CARROT)
                 .food(Food.ONION)
                 .food(SDTags.ItemTags.TFC_GRAINS)
@@ -202,6 +226,11 @@ public final class MDTFCCookingRecipeProvider extends RecipeProvider {
                 .result(foodResult(MDItems.BAKED_TENTACLES.get(), 3))
                 .result(chanceResult(MDItems.BAKED_TENTACLES.get(), 1, 0.5F))
                 .build(output, cuttingId("baked_squid"));
+
+        // TFC squid already drops calamari; expose the MD ingredient without adding meat.
+        cut(Ingredient.of(SDUtils.getTFCFoodItem(Food.CALAMARI)), true, KNIVES)
+                .result(foodResult(MDItems.TENTACLES.get(), 1))
+                .build(output, cuttingId("tentacles"));
 
         cut(Ingredient.of(MDItems.BAT_WING.get()), false, KNIVES)
                 .result(Items.PHANTOM_MEMBRANE, 1)
@@ -274,6 +303,10 @@ public final class MDTFCCookingRecipeProvider extends RecipeProvider {
                 .multipliedFrom(Food.CALAMARI, 3).save();
         food.newBuilder("raw/baked_squid").item(MDItems.BAKED_SQUID.get())
                 .multipliedFrom(Food.COOKED_CALAMARI, 3).save();
+        food.newBuilder("raw/tentacles").item(MDItems.TENTACLES.get())
+                .from(Food.CALAMARI).save();
+        food.newBuilder("raw/baked_tentacles").item(MDItems.BAKED_TENTACLES.get())
+                .from(Food.COOKED_CALAMARI).save();
         food.newBuilder("cut/moss").item(MDItems.MOSS.get())
                 .slicedFrom(Food.DRIED_SEAWEED, 4).save();
 
@@ -306,6 +339,105 @@ public final class MDTFCCookingRecipeProvider extends RecipeProvider {
                 .requires(NotRottenIngredient.of(COOKED_ARTHROPOD_OR_EGGS))
                 .requires(NotRottenIngredient.of(SILVERFISH_EGGS), 3)
                 .build(output).saveFoodData();
+    }
+
+    private void saveAssemblyRecipes(Consumer<FinishedRecipe> output) {
+        foodAndRecipes.craftingShapeless("vegan_hamburger", MDItems.VEGAN_HAMBURGER.get(), 1)
+                .requires(fresh(TFC_BREAD))
+                .requires(fresh(Ingredient.of(MDItems.VEGAN_PATTY.get())))
+                .requires(fresh(Ingredient.of(SDUtils.getTFCFoodItem(Food.CABBAGE))))
+                .requires(fresh(Ingredient.of(SDUtils.getTFCFoodItem(Food.TOMATO))))
+                .requires(fresh(Ingredient.of(SDUtils.getTFCFoodItem(Food.ONION))))
+                .build(output).saveFoodData();
+
+        foodAndRecipes.craftingShapeless("vegan_wrap", MDItems.VEGAN_WRAP.get(), 1)
+                .requires(fresh(TFC_BREAD))
+                .requires(fresh(Ingredient.of(SDUtils.getTFCFoodItem(Food.ONION))))
+                .requires(fresh(BAKED_CAVE_CARROT))
+                .build(output).saveFoodData();
+
+        foodAndRecipes.craftingShapeless("cave_hamburger", MDItems.CAVE_HAMBURGER.get(), 1)
+                .requires(fresh(TFC_BREAD))
+                .requires(fresh(BURGER_FILLING))
+                .requires(fresh(Ingredient.of(MDItems.SMOKED_BAT_WING.get())))
+                .requires(fresh(CAVE_BURGER_TOPPING), 2)
+                .build(output).saveFoodData();
+
+        foodAndRecipes.craftingShapeless("insect_sandwich", MDItems.INSECT_SANDWICH.get(), 2)
+                .requires(fresh(TFC_BREAD), 2)
+                .requires(fresh(COOKED_INSECTS))
+                .requires(fresh(INSECT_SPREAD))
+                .build(output).saveFoodData();
+
+        foodAndRecipes.craftingShapeless("insect_wrap", MDItems.INSECT_WRAP.get(), 1)
+                .requires(fresh(TFC_BREAD))
+                .requires(fresh(WRAP_FILLING))
+                .requires(fresh(ARTHROPOD_OR_EGGS), 2)
+                .build(output).saveFoodData();
+
+        foodAndRecipes.craftingShapeless("alt_insect_wrap", MDItems.INSECT_WRAP.get(), 1)
+                .requires(fresh(TFC_BREAD))
+                .requires(fresh(WRAP_FILLING))
+                .requires(fresh(Ingredient.of(MDItems.CRUNCHY_BAR.get())))
+                .build(output);
+
+        foodAndRecipes.craftingShapeless("squid_sandwich", MDItems.SQUID_SANDWICH.get(), 1)
+                .requires(fresh(TFC_BREAD))
+                .requires(fresh(Ingredient.of(MDItems.BAKED_SQUID.get())))
+                .build(output).saveFoodData();
+
+        foodAndRecipes.craftingShapeless("bat_cookie", MDItems.BAT_COOKIE.get(), 8)
+                .requires(fresh(Ingredient.of(MDItems.SMOKED_BAT_WING.get())))
+                .requires(fresh(Ingredient.of(SDTags.ItemTags.TFC_DOUGHS)), 2)
+                .build(output).saveFoodData();
+
+        foodAndRecipes.craftingShapeless("improvised_barbecue_stick", MDItems.IMPROVISED_BARBECUE_STICK.get(), 1)
+                .requires(fresh(BAKED_CAVE_CARROT))
+                .requires(fresh(Ingredient.of(SDUtils.getTFCFoodItem(Food.ONION))))
+                .requires(fresh(Ingredient.of(MDItems.SMOKED_BAT_WING.get())))
+                .requires(Tags.Items.RODS_WOODEN)
+                .build(output).saveFoodData();
+
+        foodAndRecipes.craftingShapeless("tentacles_on_a_stick", MDItems.TENTACLES_ON_A_STICK.get(), 1)
+                .requires(Tags.Items.RODS_WOODEN)
+                .requires(fresh(COOKED_TENTACLES), 2)
+                .build(output).saveFoodData();
+    }
+
+    private void saveEffectFoodRecipes(Consumer<FinishedRecipe> output) {
+        // Two double sheets contain the same 800 metal units as the original eight ingots.
+        recipe("copper_carrot", MDItems.COPPER_CARROT.get(), null, 200, 1F)
+                .food(MDItems.CAVE_CARROT.get())
+                .nonfood(COPPER_DOUBLE_SHEET)
+                .nonfood(COPPER_DOUBLE_SHEET)
+                .fluid(OILS, 100).build(output).saveFoodData();
+
+        // Halve the original batch so its ingredients fit the pot's six input slots.
+        foodAndRecipes.cooking("nutritional_bar", MDItems.NUTRITIONAL_BAR.get(), 2, 200, 1F, null)
+                .food(MDItems.CRUNCHY_BAR.get())
+                .food(MDItems.CRUNCHY_BAR.get())
+                .food(SDTags.ItemTags.TFC_GRAINS)
+                .nonfood(SDTags.ItemTags.TFC_SWEETENER)
+                .build(output).saveFoodData();
+
+        recipe("golden_nutritional_bar", MDItems.GOLDEN_NUTRITIONAL_BAR.get(), null, 200, 1F)
+                .food(MDItems.NUTRITIONAL_BAR.get())
+                .nonfood(GOLD_INGOT)
+                .build(output).saveFoodData();
+    }
+
+    private void saveUtilityRecipes(Consumer<FinishedRecipe> output) {
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MDBlocks.STICKY_BASKET.get())
+                .pattern("X X").pattern("Y Y").pattern("XYX")
+                .define('X', Tags.Items.RODS_WOODEN)
+                .define('Y', Items.COBWEB)
+                .unlockedBy("has_cobweb", has(Items.COBWEB))
+                .save(output, ResourceLocation.fromNamespaceAndPath(modid, "crafting/sticky_basket"));
+    }
+
+    private static Ingredient fresh(Ingredient ingredient) {
+        return NotRottenIngredient.of(ingredient);
     }
 
     private ResourceLocation cuttingId(String path) {

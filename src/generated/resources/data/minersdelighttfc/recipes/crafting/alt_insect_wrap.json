@@ -1,0 +1,40 @@
+{
+  "type": "survivorsdelight:nutrition_crafting_shapeless",
+  "ingredients": [
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "tag": "tfc:foods/breads"
+      }
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": [
+        {
+          "item": "tfc:food/onion"
+        },
+        {
+          "item": "miners_delight:arthropod"
+        },
+        {
+          "item": "miners_delight:spider_leg"
+        },
+        {
+          "item": "miners_delight:cooked_arthropod"
+        },
+        {
+          "item": "miners_delight:baked_spider_leg"
+        }
+      ]
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "item": "miners_delight:crunchy_bar"
+      }
+    }
+  ],
+  "result": {
+    "item": "miners_delight:insect_wrap"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "type": "farmersdelight:cooking",
+  "cookingtime": 200,
+  "experience": 1.0,
+  "ingredients": [
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "item": "miners_delight:crunchy_bar"
+      }
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "item": "miners_delight:crunchy_bar"
+      }
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
+        "tag": "tfc:foods/grains"
+      }
+    },
+    {
+      "tag": "tfc:sweetener"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "item": "miners_delight:nutritional_bar"
+  }
+}
