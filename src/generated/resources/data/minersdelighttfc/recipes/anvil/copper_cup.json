@@ -1,0 +1,15 @@
+{
+  "type": "tfc:anvil",
+  "input": {
+    "tag": "forge:sheets/copper"
+  },
+  "result": {
+    "item": "minersdelighttfc:copper_cup"
+  },
+  "tier": 1,
+  "rules": [
+    "bend_last",
+    "bend_second_last",
+    "bend_third_last"
+  ]
+}

@@ -2,17 +2,22 @@ package com.vomiter.minersdelighttfc.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.sammy.minersdelight.content.block.copper_pot.CopperPotBlockEntity;
+import com.vomiter.minersdelighttfc.registry.MDTFCItems;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.dynamic.CookingPotCookingHandler;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid.ICookingPotFluidAccess;
 import com.vomiter.survivorsdelight.common.food.FoodContainerExpansion;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
+import com.vomiter.survivorsdelight.util.FoodDataBuilder;
 import com.vomiter.survivorsdelight.util.FoodItemContainerApply;
 import net.dries007.tfc.common.capabilities.food.FoodCapability;
+import net.dries007.tfc.common.capabilities.food.FoodHandler;
 import net.dries007.tfc.common.capabilities.food.IFood;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -29,7 +34,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
 
-import java.util.HashMap;
 import java.util.Objects;
 
 @Mixin(value = CopperPotBlockEntity.class, remap = false)
@@ -42,7 +46,6 @@ public abstract class CopperPotBlockEntityMixin extends BlockEntity {
 
     @Shadow public abstract ItemStack getMeal();
     @Shadow public abstract boolean isContainerValid(ItemStack containerItem);
-    @Unique private ItemStack minersdelighttfc$latestResult = ItemStack.EMPTY;
 
     @WrapOperation(
             method = {"canCook", "processCooking"},
@@ -54,15 +57,38 @@ public abstract class CopperPotBlockEntityMixin extends BlockEntity {
         ItemStack result = original.call(recipe, access);
         Level level = getLevel();
         ICookingPotFluidAccess fluidAccess = (ICookingPotFluidAccess) this;
-        ItemStack adapted = level == null ? result.copy() : CookingPotCookingHandler.calculateDynamicOutput(
+        return level == null ? result.copy() : CookingPotCookingHandler.calculateDynamicOutput(
                 inventory,
                 Objects.requireNonNull(fluidAccess.sd$getFluidHandler()).getFluidInTank(0),
                 level,
                 recipe,
                 4
                 );
-        minersdelighttfc$latestResult = adapted.copy();
-        return adapted;
+    }
+
+    @WrapOperation(
+            method = {"canCook", "processCooking"},
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;setTag(Lnet/minecraft/nbt/CompoundTag;)V", remap = true)
+    )
+    private void minersdelighttfc$preserveCupFood(
+            ItemStack cup, CompoundTag tag, Operation<Void> original,
+            @Local(ordinal = 0) ItemStack meal
+    ) {
+        original.call(cup, tag == null ? null : tag.copy());
+        IFood mealFood = FoodCapability.get(meal);
+        if (mealFood == null || cup.isEmpty()
+                || !(FoodCapability.get(cup) instanceof FoodHandler.Dynamic cupFood)) return;
+
+        // The upstream conversion copies only the ordinary tag, not Forge capabilities.
+        // Divide each serving's food values by the actual increase in serving count.
+        float servingFactor = (float) meal.getCount() / cup.getCount();
+        cupFood.setFood(FoodDataBuilder.from(mealFood.getData()).mul(servingFactor).build());
+        cupFood.setCreationDate(mealFood.getCreationDate());
+        cupFood.getTraits().clear();
+        cupFood.getTraits().addAll(mealFood.getTraits());
+        if (mealFood instanceof FoodHandler.Dynamic dynamicMeal) {
+            cupFood.setIngredients(dynamicMeal.getIngredients().stream().map(ItemStack::copy).toList());
+        }
     }
 
     @WrapOperation(
@@ -83,13 +109,12 @@ public abstract class CopperPotBlockEntityMixin extends BlockEntity {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;grow(I)V", remap = true)
     )
     private void minersdelighttfc$foodAwareMerge(
-            ItemStack stored, int amount, Operation<Void> original, @Local(argsOnly = true) CookingPotRecipe recipe
+            ItemStack stored, int amount, Operation<Void> original, @Local(ordinal = 0) ItemStack result
     ) {
-        if (this.minersdelighttfc$latestResult.isEmpty()) {
-            ItemStack resultStack = recipe.getResultItem(this.level.registryAccess());
-            FoodCapability.mergeItemStacks(stored, resultStack.copy());
+        if (FoodCapability.get(stored) != null || FoodCapability.get(result) != null) {
+            FoodCapability.mergeItemStacks(stored, result.copyWithCount(amount));
         } else {
-            FoodCapability.mergeItemStacks(stored, this.minersdelighttfc$latestResult);
+            original.call(stored, amount);
         }
     }
 
@@ -100,8 +125,33 @@ public abstract class CopperPotBlockEntityMixin extends BlockEntity {
     private boolean minersdelighttfc$expandContainer(
             ItemStack expected, ItemStack supplied, Operation<Boolean> original
     ) {
-        return original.call(expected, supplied)
-                || FoodContainerExpansion.isExtraValid(expected.getItem(), supplied);
+        ItemStack actualExpected = MDTFCItems.replaceCopperCup(expected);
+        ItemStack actualSupplied = MDTFCItems.replaceCopperCup(supplied);
+        return original.call(actualExpected, actualSupplied)
+                || FoodContainerExpansion.isExtraValid(actualExpected.getItem(), actualSupplied);
+    }
+
+    @ModifyExpressionValue(
+            method = "processCooking",
+            at = {
+                    @At(value = "INVOKE", target = "Lcom/sammy/minersdelight/repack/registrate/util/entry/ItemEntry;asStack()Lnet/minecraft/world/item/ItemStack;"),
+                    @At(value = "INVOKE", target = "Lvectorwing/farmersdelight/common/crafting/CookingPotRecipe;getOutputContainer()Lnet/minecraft/world/item/ItemStack;")
+            }
+    )
+    private ItemStack minersdelighttfc$useCopperCup(ItemStack original) {
+        return MDTFCItems.replaceCopperCup(original);
+    }
+
+    @Inject(method = "getContainer", at = @At("RETURN"), cancellable = true)
+    private void minersdelighttfc$displayCopperCup(CallbackInfoReturnable<ItemStack> cir) {
+        cir.setReturnValue(MDTFCItems.replaceCopperCup(cir.getReturnValue()));
+    }
+
+    @Inject(method = "isContainerValid", at = @At("HEAD"), cancellable = true)
+    private void minersdelighttfc$requireEmptyCup(ItemStack container, CallbackInfoReturnable<Boolean> cir) {
+        if (container.is(MDTFCItems.COPPER_CUP.get()) && !MDTFCItems.isEmptyCopperCup(container)) {
+            cir.setReturnValue(false);
+        }
     }
 
     @Inject(method = "useHeldItemOnMeal", at = @At("HEAD"), cancellable = true)
@@ -160,16 +210,9 @@ public abstract class CopperPotBlockEntityMixin extends BlockEntity {
 
     @Unique
     private static ItemStack applyContainer(ItemStack serving, ItemStack container) {
+        container = MDTFCItems.replaceCopperCup(container);
         return serving.is(SDTags.ItemTags.SOUPS)
                 ? FoodItemContainerApply.applySoup(serving, container)
                 : FoodItemContainerApply.applyGeneral(serving, container);
     }
-
-    /*
-    @WrapOperation(method = {"canCook", "processCooking"}, at = @At(value = "INVOKE", target = "Ljava/util/HashMap;containsKey(Ljava/lang/Object;)Z"))
-    private boolean mdfc$disableConversion(HashMap instance, Object key, Operation<Boolean> original){
-        return false;
-    }
-
-     */
 }

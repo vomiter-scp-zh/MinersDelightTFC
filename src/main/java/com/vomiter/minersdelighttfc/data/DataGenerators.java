@@ -11,6 +11,8 @@ public final class DataGenerators {
     public static void gatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
         PackOutput output = generator.getPackOutput();
+        generator.addProvider(event.includeServer() || event.includeClient(),
+                new MDTFCCopperCupDataProvider(output, event.includeServer(), event.includeClient()));
         if (event.includeServer()) {
             MDTFCCookingRecipeProvider.gatherData(event, MinersDelightTFC.MOD_ID);
         }

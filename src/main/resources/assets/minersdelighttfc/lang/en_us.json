@@ -1,4 +1,6 @@
 {
+  "item.minersdelighttfc.copper_cup": "Copper Cup",
+  "item.minersdelighttfc.copper_cup.filled": "Copper Cup (%s)",
   "gui.minersdelighttfc.copper_pot_fluid": "Copper Pot Fluids",
   "gui.minersdelighttfc.open_cooking": "Open copper pot cooking",
   "gui.minersdelighttfc.open_fluid": "Open copper pot fluids"

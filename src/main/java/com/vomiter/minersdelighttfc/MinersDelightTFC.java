@@ -8,6 +8,7 @@ import com.vomiter.survivorsdelight.registry.SDBlockEntityTypes;
 import com.vomiter.minersdelighttfc.data.DataGenerators;
 import com.vomiter.minersdelighttfc.network.MDTFCNetwork;
 import com.vomiter.minersdelighttfc.registry.MDTFCMenuTypes;
+import com.vomiter.minersdelighttfc.registry.MDTFCItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -27,11 +28,13 @@ public final class MinersDelightTFC {
 
     public MinersDelightTFC() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+        MDTFCItems.register(modBus);
         MDTFCMenuTypes.register(modBus);
         modBus.addListener(DataGenerators::gatherData);
         modBus.addListener(this::commonSetup);
         if (FMLEnvironment.dist.isClient()){
             modBus.addListener(ClientSetup::setup);
+            modBus.addListener(ClientSetup::registerItemColors);
         }
     }
 
