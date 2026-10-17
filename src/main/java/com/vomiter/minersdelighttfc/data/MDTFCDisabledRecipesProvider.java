@@ -17,14 +17,16 @@ import java.util.concurrent.CompletableFuture;
 public final class MDTFCDisabledRecipesProvider implements DataProvider {
     private static final String MD = "miners_delight";
     private final PackOutput.PathProvider recipes;
+    private final String namespace;
 
-    public MDTFCDisabledRecipesProvider(PackOutput output) {
+    public MDTFCDisabledRecipesProvider(PackOutput output, String namespace) {
         recipes = output.createPathProvider(PackOutput.Target.DATA_PACK, "recipes");
+        this.namespace = namespace;
     }
 
     @Override
     public CompletableFuture<?> run(CachedOutput cache) {
-        Path root = ModList.get().getModFileById(MD).getFile().findResource("data", MD, "recipes");
+        Path root = ModList.get().getModFileById(MD).getFile().findResource("data", namespace, "recipes");
         JsonObject disabled = new JsonObject();
         JsonObject condition = new JsonObject();
         condition.addProperty("type", "forge:false");
@@ -35,20 +37,17 @@ public final class MDTFCDisabledRecipesProvider implements DataProvider {
         try (var files = Files.walk(root)) {
             for (Path file : files.filter(p -> p.toString().endsWith(".json")).sorted().toList()) {
                 String path = root.relativize(file).toString().replace('\\', '/');
-                ResourceLocation id = new ResourceLocation(MD, path.substring(0, path.length() - 5));
+                ResourceLocation id = ResourceLocation.fromNamespaceAndPath(MD, path.substring(0, path.length() - 5));
                 saves.add(DataProvider.saveStable(cache, disabled, recipes.json(id)));
             }
         } catch (IOException e) {
             return CompletableFuture.failedFuture(e);
-        }
-        if (saves.isEmpty()) {
-            return CompletableFuture.failedFuture(new IllegalStateException("No Miner's Delight recipes found in " + root));
         }
         return CompletableFuture.allOf(saves.toArray(CompletableFuture[]::new));
     }
 
     @Override
     public String getName() {
-        return "Disable every original Miner's Delight recipe";
+        return "Disable every original Miner's Delight recipe under namespace "+ namespace;
     }
 }

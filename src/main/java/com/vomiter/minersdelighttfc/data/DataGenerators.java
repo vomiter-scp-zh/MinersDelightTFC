@@ -15,7 +15,8 @@ public final class DataGenerators {
                 new MDTFCCopperCupDataProvider(output, event.includeServer(), event.includeClient()));
         if (event.includeServer()) {
             generator.addProvider(true, new MDTFCPiercingLootProvider(output));
-            generator.addProvider(true, new MDTFCDisabledRecipesProvider(output));
+            generator.addProvider(true, new MDTFCDisabledRecipesProvider(output, "minersdelight"));
+            generator.addProvider(true, new MDTFCDisabledRecipesProvider(output, "miners_delight"));
             generator.addProvider(true, new MDTFCProcessingRecipeProvider(output));
             MDTFCCookingRecipeProvider.gatherData(event, MinersDelightTFC.MOD_ID);
         }
