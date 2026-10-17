@@ -1,5 +1,7 @@
 {
-  "type": "survivorsdelight:nutrition_crafting_shapeless",
+  "type": "farmersdelight:cooking",
+  "cookingtime": 400,
+  "experience": 2.0,
   "ingredients": [
     {
       "type": "tfc:not_rotten",

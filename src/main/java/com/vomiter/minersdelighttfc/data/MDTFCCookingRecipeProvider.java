@@ -90,6 +90,13 @@ public final class MDTFCCookingRecipeProvider extends RecipeProvider {
         saveEffectFoodRecipes(output);
         saveUtilityRecipes(output);
 
+        foodAndRecipes.cooking("bat_cookie", MDItems.BAT_COOKIE.get(), 8, 400, 2f, null)
+                .food(MDItems.SMOKED_BAT_WING.get())
+                .food(MDItems.SMOKED_BAT_WING.get())
+                .food(SDTags.ItemTags.TFC_DOUGHS)
+                .food(SDTags.ItemTags.TFC_DOUGHS)
+                .build(output).saveFoodData();
+
         recipe("pasta_with_veggieballs", MDItems.PASTA_WITH_VEGGIEBALLS.get(), null, 400, 2F)
                 .food(BAKED_CAVE_CARROT)
                 .food(PASTA)
@@ -342,10 +349,6 @@ public final class MDTFCCookingRecipeProvider extends RecipeProvider {
 
     private void saveAssemblyRecipes(Consumer<FinishedRecipe> output) {
         // TODO: Revisit TFC bread sandwiches, hamburgers and wraps before adding recipes again.
-        foodAndRecipes.craftingShapeless("bat_cookie", MDItems.BAT_COOKIE.get(), 8)
-                .requires(fresh(Ingredient.of(MDItems.SMOKED_BAT_WING.get())))
-                .requires(fresh(Ingredient.of(SDTags.ItemTags.TFC_DOUGHS)), 2)
-                .build(output).saveFoodData();
 
         foodAndRecipes.craftingShapeless("improvised_barbecue_stick", MDItems.IMPROVISED_BARBECUE_STICK.get(), 1)
                 .requires(fresh(BAKED_CAVE_CARROT))
