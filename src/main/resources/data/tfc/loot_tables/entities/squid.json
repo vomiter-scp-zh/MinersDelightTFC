@@ -1,0 +1,55 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "name": "loot_pool",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:ink_sac",
+          "conditions": [
+            {
+              "condition": "minecraft:killed_by_player"
+            }
+          ],
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 1,
+                "max": 10,
+                "type": "minecraft:uniform"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "loot_pool",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "tfc:food/calamari"
+        }
+      ]
+    },
+    {
+      "name": "minersdelighttfc_piercing_squid",
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minersdelighttfc:piercing_damage"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "miners_delight:squid"
+        }
+      ]
+    }
+  ]
+}

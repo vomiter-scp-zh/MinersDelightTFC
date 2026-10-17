@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.sammy.minersdelight.setup.MDBlocks;
 import com.vomiter.minersdelighttfc.client.ClientSetup;
 import com.vomiter.minersdelighttfc.loot.NoSkyLightCondition;
+import com.vomiter.minersdelighttfc.loot.PiercingDamageCondition;
 import com.vomiter.survivorsdelight.mixin.BlockEntityTypeAccessor;
 import com.vomiter.survivorsdelight.registry.SDBlockEntityTypes;
 import com.vomiter.minersdelighttfc.data.DataGenerators;
@@ -37,6 +38,7 @@ public final class MinersDelightTFC {
         modBus.addListener(DataGenerators::gatherData);
         modBus.addListener(this::commonSetup);
         modBus.addListener(NoSkyLightCondition::register);
+        modBus.addListener(PiercingDamageCondition::register);
         if (FMLEnvironment.dist.isClient()){
             modBus.addListener(ClientSetup::setup);
             modBus.addListener(ClientSetup::registerItemColors);
