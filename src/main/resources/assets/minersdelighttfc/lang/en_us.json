@@ -3,5 +3,8 @@
   "item.minersdelighttfc.copper_cup.filled": "Copper Cup (%s)",
   "gui.minersdelighttfc.copper_pot_fluid": "Copper Pot Fluids",
   "gui.minersdelighttfc.open_cooking": "Open copper pot cooking",
-  "gui.minersdelighttfc.open_fluid": "Open copper pot fluids"
+  "gui.minersdelighttfc.open_fluid": "Open copper pot fluids",
+  "item.minersdelighttfc.seeds.cave_carrot": "Cave Carrot Seeds",
+  "block.minersdelighttfc.crop.cave_carrot": "Cave Carrot",
+  "block.minersdelighttfc.dead_crop.cave_carrot": "Dead Cave Carrot"
 }

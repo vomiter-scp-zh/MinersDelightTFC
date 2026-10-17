@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "minersdelighttfc:block/crop/cave_carrot_age_0"
+    },
+    "age=1": {
+      "model": "minersdelighttfc:block/crop/cave_carrot_age_1"
+    },
+    "age=2": {
+      "model": "minersdelighttfc:block/crop/cave_carrot_age_2"
+    },
+    "age=3": {
+      "model": "minersdelighttfc:block/crop/cave_carrot_age_3"
+    },
+    "age=4": {
+      "model": "minersdelighttfc:block/crop/cave_carrot_age_4"
+    }
+  }
+}

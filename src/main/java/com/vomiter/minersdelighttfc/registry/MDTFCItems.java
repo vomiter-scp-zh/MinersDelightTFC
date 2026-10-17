@@ -7,6 +7,7 @@ import com.vomiter.minersdelighttfc.item.CopperCupItem;
 import net.dries007.tfc.common.capabilities.Capabilities;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -20,6 +21,8 @@ public final class MDTFCItems {
     public static final RegistryObject<CopperCupItem> COPPER_CUP = ITEMS.register(
             "copper_cup", () -> new CopperCupItem(new Item.Properties().stacksTo(16))
     );
+    public static final RegistryObject<Item> CAVE_CARROT_SEEDS = ITEMS.register("seeds/cave_carrot",
+            () -> new ItemNameBlockItem(MDTFCBlocks.CAVE_CARROT.get(), new Item.Properties()));
 
     private MDTFCItems() {}
 
@@ -31,6 +34,7 @@ public final class MDTFCItems {
     private static void addCreativeTabContents(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey().equals(MDCreativeTabs.TAB_MINERS_DELIGHT.getKey())) {
             event.accept(COPPER_CUP.get());
+            event.accept(CAVE_CARROT_SEEDS.get());
         }
     }
 

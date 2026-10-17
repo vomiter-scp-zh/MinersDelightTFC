@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "minersdelighttfc:crop/cave_carrot",
+    "minersdelighttfc:dead_crop/cave_carrot"
+  ]
+}

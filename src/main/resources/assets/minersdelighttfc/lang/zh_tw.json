@@ -1,4 +1,7 @@
 {
   "item.minersdelighttfc.copper_cup": "銅杯",
-  "item.minersdelighttfc.copper_cup.filled": "銅杯（%s）"
+  "item.minersdelighttfc.copper_cup.filled": "銅杯（%s）",
+  "item.minersdelighttfc.seeds.cave_carrot": "洞穴胡蘿蔔種子",
+  "block.minersdelighttfc.crop.cave_carrot": "洞穴胡蘿蔔",
+  "block.minersdelighttfc.dead_crop.cave_carrot": "枯死的洞穴胡蘿蔔"
 }
