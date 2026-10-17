@@ -49,7 +49,6 @@ public final class MDTFCCookingRecipeProvider extends RecipeProvider {
 
     private static final Ingredient BAKED_CAVE_CARROT = Ingredient.of(MDTags.BAKED_CAVE_CARROT);
     private static final Ingredient PASTA = Ingredient.of(CommonTags.Items.PASTA);
-    private static final Ingredient FORAGED_ROOT = Ingredient.of(SDUtils.getTFCFoodItem(Food.CATTAIL_ROOT));
     private static final Ingredient BAT_WING = Ingredient.of(MDTags.BAT_WING);
     private static final Ingredient TFC_VEGETABLES = Ingredient.of(SDTags.ItemTags.TFC_VEGETABLES);
     private static final Ingredient ARTHROPOD_OR_EGGS = Ingredient.of(
@@ -99,8 +98,8 @@ public final class MDTFCCookingRecipeProvider extends RecipeProvider {
 
         recipe("cave_soup", MDItems.CAVE_SOUP.get(), null, 200, 1F)
                 .food(Ingredient.of(MDTags.CAVE_CARROTS_VEGETABLE_ITEM))
-                .food(Food.TARO_ROOT)
-                .food(FORAGED_ROOT)
+                .food(Items.BROWN_MUSHROOM)
+                .food(Items.RED_MUSHROOM)
                 .food(SOUPS)
                 .build(output).saveFoodData();
 
