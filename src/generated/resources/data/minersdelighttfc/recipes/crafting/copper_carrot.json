@@ -4,17 +4,14 @@
     {
       "type": "tfc:not_rotten",
       "ingredient": {
-        "tag": "tfc:foods/breads"
+        "item": "miners_delight:cave_carrot"
       }
     },
     {
-      "type": "tfc:not_rotten",
-      "ingredient": {
-        "item": "miners_delight:baked_squid"
-      }
+      "item": "minersdelighttfc:copper_leaf"
     }
   ],
   "result": {
-    "item": "miners_delight:squid_sandwich"
+    "item": "miners_delight:copper_carrot"
   }
 }

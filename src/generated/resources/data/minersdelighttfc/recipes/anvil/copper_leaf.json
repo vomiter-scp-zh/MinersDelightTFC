@@ -1,0 +1,17 @@
+{
+  "type": "tfc:anvil",
+  "apply_forging_bonus": false,
+  "input": {
+    "item": "tfc:metal/ingot/copper"
+  },
+  "result": {
+    "count": 4,
+    "item": "minersdelighttfc:copper_leaf"
+  },
+  "rules": [
+    "draw_third_last",
+    "draw_second_last",
+    "draw_last"
+  ],
+  "tier": 0
+}

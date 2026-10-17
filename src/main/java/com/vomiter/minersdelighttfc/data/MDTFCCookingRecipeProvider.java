@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 import com.sammy.minersdelight.setup.MDBlocks;
 import com.sammy.minersdelight.setup.MDItems;
 import com.sammy.minersdelight.setup.MDTags;
+import com.vomiter.minersdelighttfc.registry.MDTFCItems;
+import com.vomiter.survivorsdelight.registry.SDItems;
 import com.vomiter.survivorsdelight.data.recipe.builder.SDCuttingRecipeBuilder;
 import com.vomiter.survivorsdelight.data.food.SDFoodAndRecipeGenerator;
 import com.vomiter.survivorsdelight.data.food.SDFoodDataProvider;
@@ -13,8 +15,6 @@ import com.vomiter.survivorsdelight.data.tags.SDTags;
 import com.vomiter.survivorsdelight.util.SDUtils;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.items.Food;
-import net.dries007.tfc.common.items.TFCItems;
-import net.dries007.tfc.util.Metal;
 import net.dries007.tfc.common.recipes.ingredients.NotRottenIngredient;
 import net.dries007.tfc.common.recipes.outputs.CopyFoodModifier;
 import net.dries007.tfc.common.recipes.outputs.ItemStackProvider;
@@ -26,8 +26,8 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluid;
@@ -64,22 +64,8 @@ public final class MDTFCCookingRecipeProvider extends RecipeProvider {
     private static final Ingredient SOUPS = Ingredient.of(ItemTags.create(ResourceLocation.fromNamespaceAndPath("tfc","soups")));
     private static final Ingredient KNIVES = Ingredient.of(CommonTags.Items.TOOLS_KNIVES);
     private static final Ingredient SHEARS = Ingredient.of(Tags.Items.SHEARS);
-    private static final Ingredient TFC_BREAD = Ingredient.of(TFC_BREADS);
     private static final Ingredient COOKED_TENTACLES = Ingredient.of(MDItems.BAKED_TENTACLES.get(),
             SDUtils.getTFCFoodItem(Food.COOKED_CALAMARI));
-    private static final Ingredient BURGER_FILLING = Ingredient.of(MDItems.CRUNCHY_BAR.get(), MDItems.VEGAN_PATTY.get());
-    private static final Ingredient CAVE_BURGER_TOPPING = Ingredient.of(MDItems.BAKED_TENTACLES.get(),
-            MDItems.BAKED_CAVE_CARROT.get());
-    private static final Ingredient COOKED_INSECTS = Ingredient.of(MDItems.COOKED_ARTHROPOD.get(), MDItems.BAKED_SPIDER_LEG.get());
-    private static final Ingredient INSECT_SPREAD = Ingredient.of(MDItems.COOKED_ARTHROPOD.get(),
-            MDItems.BAKED_SPIDER_LEG.get(), MDItems.WEIRD_CAVIAR.get());
-    private static final Ingredient WRAP_FILLING = Ingredient.of(SDUtils.getTFCFoodItem(Food.ONION),
-            MDItems.ARTHROPOD.get(), MDItems.SPIDER_LEG.get(), MDItems.COOKED_ARTHROPOD.get(), MDItems.BAKED_SPIDER_LEG.get());
-    private static final ItemLike COPPER_DOUBLE_SHEET = TFCItems.METAL_ITEMS.get(Metal.Default.COPPER)
-            .get(Metal.ItemType.DOUBLE_SHEET).get();
-    private static final ItemLike GOLD_INGOT = TFCItems.METAL_ITEMS.get(Metal.Default.GOLD)
-            .get(Metal.ItemType.INGOT).get();
-
     private final String modid;
     private final SDFoodAndRecipeGenerator foodAndRecipes;
 
@@ -319,6 +305,20 @@ public final class MDTFCCookingRecipeProvider extends RecipeProvider {
         food.newBuilder("servings/glazed_arachnid_limbs").item(MDItems.PLATE_OF_GLAZED_ARACHNID_LIMBS.get())
                 .type("dynamic").save();
 
+        // Keep food capabilities for existing meals while their recipes await redesign.
+        food.newBuilder("vegan_hamburger").item(MDItems.VEGAN_HAMBURGER.get())
+                .type("dynamic").save();
+        food.newBuilder("vegan_wrap").item(MDItems.VEGAN_WRAP.get())
+                .type("dynamic").save();
+        food.newBuilder("cave_hamburger").item(MDItems.CAVE_HAMBURGER.get())
+                .type("dynamic").save();
+        food.newBuilder("insect_sandwich").item(MDItems.INSECT_SANDWICH.get())
+                .type("dynamic").save();
+        food.newBuilder("insect_wrap").item(MDItems.INSECT_WRAP.get())
+                .type("dynamic").save();
+        food.newBuilder("squid_sandwich").item(MDItems.SQUID_SANDWICH.get())
+                .type("dynamic").save();
+
         food.newBuilder("cup/cave_soup").item(MDItems.CAVE_SOUP_CUP.get())
                 .type("dynamic").save();
         food.newBuilder("cup/chicken_soup").item(MDItems.CHICKEN_SOUP_CUP.get())
@@ -342,50 +342,7 @@ public final class MDTFCCookingRecipeProvider extends RecipeProvider {
     }
 
     private void saveAssemblyRecipes(Consumer<FinishedRecipe> output) {
-        foodAndRecipes.craftingShapeless("vegan_hamburger", MDItems.VEGAN_HAMBURGER.get(), 1)
-                .requires(fresh(TFC_BREAD))
-                .requires(fresh(Ingredient.of(MDItems.VEGAN_PATTY.get())))
-                .requires(fresh(Ingredient.of(SDUtils.getTFCFoodItem(Food.CABBAGE))))
-                .requires(fresh(Ingredient.of(SDUtils.getTFCFoodItem(Food.TOMATO))))
-                .requires(fresh(Ingredient.of(SDUtils.getTFCFoodItem(Food.ONION))))
-                .build(output).saveFoodData();
-
-        foodAndRecipes.craftingShapeless("vegan_wrap", MDItems.VEGAN_WRAP.get(), 1)
-                .requires(fresh(TFC_BREAD))
-                .requires(fresh(Ingredient.of(SDUtils.getTFCFoodItem(Food.ONION))))
-                .requires(fresh(BAKED_CAVE_CARROT))
-                .build(output).saveFoodData();
-
-        foodAndRecipes.craftingShapeless("cave_hamburger", MDItems.CAVE_HAMBURGER.get(), 1)
-                .requires(fresh(TFC_BREAD))
-                .requires(fresh(BURGER_FILLING))
-                .requires(fresh(Ingredient.of(MDItems.SMOKED_BAT_WING.get())))
-                .requires(fresh(CAVE_BURGER_TOPPING), 2)
-                .build(output).saveFoodData();
-
-        foodAndRecipes.craftingShapeless("insect_sandwich", MDItems.INSECT_SANDWICH.get(), 2)
-                .requires(fresh(TFC_BREAD), 2)
-                .requires(fresh(COOKED_INSECTS))
-                .requires(fresh(INSECT_SPREAD))
-                .build(output).saveFoodData();
-
-        foodAndRecipes.craftingShapeless("insect_wrap", MDItems.INSECT_WRAP.get(), 1)
-                .requires(fresh(TFC_BREAD))
-                .requires(fresh(WRAP_FILLING))
-                .requires(fresh(ARTHROPOD_OR_EGGS), 2)
-                .build(output).saveFoodData();
-
-        foodAndRecipes.craftingShapeless("alt_insect_wrap", MDItems.INSECT_WRAP.get(), 1)
-                .requires(fresh(TFC_BREAD))
-                .requires(fresh(WRAP_FILLING))
-                .requires(fresh(Ingredient.of(MDItems.CRUNCHY_BAR.get())))
-                .build(output);
-
-        foodAndRecipes.craftingShapeless("squid_sandwich", MDItems.SQUID_SANDWICH.get(), 1)
-                .requires(fresh(TFC_BREAD))
-                .requires(fresh(Ingredient.of(MDItems.BAKED_SQUID.get())))
-                .build(output).saveFoodData();
-
+        // TODO: Revisit TFC bread sandwiches, hamburgers and wraps before adding recipes again.
         foodAndRecipes.craftingShapeless("bat_cookie", MDItems.BAT_COOKIE.get(), 8)
                 .requires(fresh(Ingredient.of(MDItems.SMOKED_BAT_WING.get())))
                 .requires(fresh(Ingredient.of(SDTags.ItemTags.TFC_DOUGHS)), 2)
@@ -405,12 +362,11 @@ public final class MDTFCCookingRecipeProvider extends RecipeProvider {
     }
 
     private void saveEffectFoodRecipes(Consumer<FinishedRecipe> output) {
-        // Two double sheets contain the same 800 metal units as the original eight ingots.
-        recipe("copper_carrot", MDItems.COPPER_CARROT.get(), null, 200, 1F)
-                .food(MDItems.CAVE_CARROT.get())
-                .nonfood(COPPER_DOUBLE_SHEET)
-                .nonfood(COPPER_DOUBLE_SHEET)
-                .fluid(OILS, 100).build(output).saveFoodData();
+        // Follow SD's golden carrot: one fresh food plus one leaf, preserving nutrition.
+        foodAndRecipes.craftingShapeless("copper_carrot", MDItems.COPPER_CARROT.get(), 1)
+                .requires(fresh(Ingredient.of(MDItems.CAVE_CARROT.get())))
+                .requires(MDTFCItems.COPPER_LEAF.get())
+                .build(output).saveFoodData();
 
         // Halve the original batch so its ingredients fit the pot's six input slots.
         foodAndRecipes.cooking("nutritional_bar", MDItems.NUTRITIONAL_BAR.get(), 2, 200, 1F, null)
@@ -420,9 +376,9 @@ public final class MDTFCCookingRecipeProvider extends RecipeProvider {
                 .nonfood(SDTags.ItemTags.TFC_SWEETENER)
                 .build(output).saveFoodData();
 
-        recipe("golden_nutritional_bar", MDItems.GOLDEN_NUTRITIONAL_BAR.get(), null, 200, 1F)
-                .food(MDItems.NUTRITIONAL_BAR.get())
-                .nonfood(GOLD_INGOT)
+        foodAndRecipes.craftingShapeless("golden_nutritional_bar", MDItems.GOLDEN_NUTRITIONAL_BAR.get(), 1)
+                .requires(fresh(Ingredient.of(MDItems.NUTRITIONAL_BAR.get())))
+                .requires(SDItems.GOLD_FLAKE.get())
                 .build(output).saveFoodData();
     }
 

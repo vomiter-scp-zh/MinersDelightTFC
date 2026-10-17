@@ -6,5 +6,6 @@
   "gui.minersdelighttfc.open_fluid": "Open copper pot fluids",
   "item.minersdelighttfc.seeds.cave_carrot": "Cave Carrot Seeds",
   "block.minersdelighttfc.crop.cave_carrot": "Cave Carrot",
-  "block.minersdelighttfc.dead_crop.cave_carrot": "Dead Cave Carrot"
+  "block.minersdelighttfc.dead_crop.cave_carrot": "Dead Cave Carrot",
+  "item.minersdelighttfc.copper_leaf": "Copper Leaf"
 }

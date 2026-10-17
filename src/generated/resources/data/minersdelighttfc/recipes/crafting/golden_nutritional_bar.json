@@ -1,7 +1,5 @@
 {
-  "type": "farmersdelight:cooking",
-  "cookingtime": 200,
-  "experience": 1.0,
+  "type": "survivorsdelight:nutrition_crafting_shapeless",
   "ingredients": [
     {
       "type": "tfc:not_rotten",
@@ -10,7 +8,7 @@
       }
     },
     {
-      "item": "tfc:metal/ingot/gold"
+      "item": "survivorsdelight:gold_flake"
     }
   ],
   "result": {

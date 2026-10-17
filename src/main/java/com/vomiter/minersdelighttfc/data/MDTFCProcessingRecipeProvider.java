@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.sammy.minersdelight.setup.MDBlocks;
 import com.sammy.minersdelight.setup.MDItems;
 import com.vomiter.minersdelighttfc.MinersDelightTFC;
+import com.vomiter.minersdelighttfc.registry.MDTFCItems;
 import com.vomiter.survivorsdelight.data.recipe.builder.SDJsonAdapters;
 import net.dries007.tfc.common.items.TFCItems;
 import net.dries007.tfc.common.recipes.ingredients.NotRottenIngredient;
@@ -73,6 +74,21 @@ public final class MDTFCProcessingRecipeProvider implements DataProvider {
         rules.add("bend_third_last");
         pot.add("rules", rules);
         saves.add(DataProvider.saveStable(cache, pot, recipes.json(MinersDelightTFC.id("anvil/copper_pot"))));
+
+        // Match SD gold flakes: one ingot, tier 0, three final draws, four leaves.
+        JsonObject leaf = new JsonObject();
+        leaf.addProperty("type", "tfc:anvil");
+        leaf.add("input", Ingredient.of(TFCItems.METAL_ITEMS.get(Metal.Default.COPPER)
+                .get(Metal.ItemType.INGOT).get()).toJson());
+        leaf.add("result", SDJsonAdapters.stackToJson(new ItemStack(MDTFCItems.COPPER_LEAF.get(), 4)));
+        leaf.addProperty("tier", 0);
+        JsonArray leafRules = new JsonArray();
+        leafRules.add("draw_third_last");
+        leafRules.add("draw_second_last");
+        leafRules.add("draw_last");
+        leaf.add("rules", leafRules);
+        leaf.addProperty("apply_forging_bonus", false);
+        saves.add(DataProvider.saveStable(cache, leaf, recipes.json(MinersDelightTFC.id("anvil/copper_leaf"))));
 
         JsonObject spinning = new JsonObject();
         spinning.addProperty("type", "tfc:damage_inputs_shapeless_crafting");

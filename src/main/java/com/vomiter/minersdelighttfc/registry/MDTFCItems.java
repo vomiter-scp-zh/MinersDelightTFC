@@ -21,6 +21,8 @@ public final class MDTFCItems {
     public static final RegistryObject<CopperCupItem> COPPER_CUP = ITEMS.register(
             "copper_cup", () -> new CopperCupItem(new Item.Properties().stacksTo(16))
     );
+    public static final RegistryObject<Item> COPPER_LEAF = ITEMS.register("copper_leaf",
+            () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> CAVE_CARROT_SEEDS = ITEMS.register("seeds/cave_carrot",
             () -> new ItemNameBlockItem(MDTFCBlocks.CAVE_CARROT.get(), new Item.Properties()));
 
@@ -34,6 +36,7 @@ public final class MDTFCItems {
     private static void addCreativeTabContents(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey().equals(MDCreativeTabs.TAB_MINERS_DELIGHT.getKey())) {
             event.accept(COPPER_CUP.get());
+            event.accept(COPPER_LEAF.get());
             event.accept(CAVE_CARROT_SEEDS.get());
         }
     }
