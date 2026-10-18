@@ -12,6 +12,12 @@
     {
       "type": "tfc:not_rotten",
       "ingredient": {
+        "item": "miners_delight:smoked_bat_wing"
+      }
+    },
+    {
+      "type": "tfc:not_rotten",
+      "ingredient": {
         "tag": "tfc:foods/dough"
       }
     },

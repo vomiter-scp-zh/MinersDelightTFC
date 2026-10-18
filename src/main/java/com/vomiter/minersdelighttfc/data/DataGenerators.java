@@ -13,6 +13,8 @@ public final class DataGenerators {
         PackOutput output = generator.getPackOutput();
         generator.addProvider(event.includeServer() || event.includeClient(),
                 new MDTFCCopperCupDataProvider(output, event.includeServer(), event.includeClient()));
+        generator.addProvider(event.includeClient(), new MDTFCBookEnUsProvider(output));
+        //generator.addProvider(event.includeClient(), new MDTFCBookZhTwProvider(output));
         if (event.includeServer()) {
             generator.addProvider(true, new MDTFCPiercingLootProvider(output));
             generator.addProvider(true, new MDTFCDisabledRecipesProvider(output, "minersdelight"));

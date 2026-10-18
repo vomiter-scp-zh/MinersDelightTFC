@@ -1,0 +1,23 @@
+{
+  "category": "tfc:miners_delight_tfc",
+  "extra_recipe_mappings": {},
+  "icon": "miners_delight:silverfish_eggs",
+  "name": "Silverfish Infestations",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Underground food supplies attract $(l:mechanics/decay#pests)pests$(), too. Food chests placed $(bold)at least 10 blocks$() below the surface may draw silverfish.$(br2)They emerge around the chest, making them a pest to watch for when storing food underground."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The deeper a chest lies beneath the surface, the more silverfish an infestation may bring, up to eight at once.$(br2)Silverfish drawn to a food chest remember its location and make their way back to it when there's no enemy to chase."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "miners_delight:silverfish_eggs",
+      "text": "When silverfish appear, you may also find silverfish eggs in the chest that attracted them, up to $(bold)five eggs$() at a time.$(br2)The eggs remain alongside the food, ready to collect. You can also obtain them through $(l:minersdelighttfc/piercing_harvests)piercing and gathering$()."
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 3
+}

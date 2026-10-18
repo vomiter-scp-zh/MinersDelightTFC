@@ -1,0 +1,24 @@
+{
+  "category": "tfc:miners_delight_tfc",
+  "extra_recipe_mappings": {},
+  "icon": "minersdelighttfc:copper_cup",
+  "name": "Copper Cups",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A copper cup is a reusable container for collecting, carrying and drinking liquids, much like a ceramic jug. It holds the same amount and accepts the same fluids as a jug."
+    },
+    {
+      "type": "tfc:anvil_recipe",
+      "recipe": "minersdelighttfc:anvil/copper_cup",
+      "text": "Work a copper sheet on an anvil to make an empty copper cup. Use it to carry drinks or serve certain soups."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "miners_delight:cave_soup_cup",
+      "text": "Use an empty copper cup to serve cave soup from a $(l:minersdelighttfc/copper_pot)copper pot$(), making a meal you can carry.$(br2)Its nutrition depends on the ingredients and portion size. Eating the meal returns the empty cup."
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 5
+}

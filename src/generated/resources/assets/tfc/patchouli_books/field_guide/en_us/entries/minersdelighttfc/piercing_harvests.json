@@ -1,0 +1,28 @@
+{
+  "category": "tfc:miners_delight_tfc",
+  "extra_recipe_mappings": {},
+  "icon": "miners_delight:squid",
+  "name": "Piercing and Gathering",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Javelins and knives deal $(l:mechanics/damage_types)piercing damage$(). Land the killing blow with one to gather ingredients for cooking.$(br2)Bat wings, spider legs, and whole squids can all be processed into food."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "miners_delight:arthropod",
+      "text": "Spiders and cave spiders provide arthropod meat.$(br2)Ordinary spiders may also drop spider legs. Silverfish killed with piercing damage yield arthropod meat and may drop eggs. For another source of eggs, see $(l:minersdelighttfc/silverfish_infestation)Silverfish Infestations$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "You may also hunt spiders and cave spiders with piercing weapons for a chance to gather cobwebs, which can be processed into string or made into sticky baskets."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "miners_delight:glow_squid",
+      "text": "Hunt squid with piercing weapons to obtain whole squids. The same method yields whole glow squids from octopuses.$(br2)Cut them up, heat them, or use them to prepare stuffed dishes."
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 2
+}

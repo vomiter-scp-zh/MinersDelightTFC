@@ -1,0 +1,19 @@
+{
+  "category": "tfc:miners_delight_tfc",
+  "extra_recipe_mappings": {},
+  "icon": "miners_delight:copper_pot",
+  "name": "Copper Pots",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "See $(l:survivorsdelight/cooking_pot)Cooking Pots$() for heating, adding liquids, and serving food. A copper pot has four ingredient slots and holds $(bold)4,000 mB$() of fluid. Use the six-slot cooking pot for recipes with more ingredients.$(br2)Serve finished cave soup into an empty copper cup. See $(l:minersdelighttfc/copper_cup)Copper Cups$() for its other uses."
+    },
+    {
+      "type": "tfc:anvil_recipe",
+      "recipe": "minersdelighttfc:anvil/copper_pot",
+      "text": "Work one copper double sheet on an anvil to make a copper pot. Follow the recipe's forging requirements, then place the pot over a suitable heat source."
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 4
+}

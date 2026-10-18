@@ -1,0 +1,31 @@
+{
+  "category": "tfc:miners_delight_tfc",
+  "extra_recipe_mappings": {
+    "minersdelighttfc:seeds/cave_carrot": 0
+  },
+  "icon": "miners_delight:cave_carrot",
+  "name": "Cave Carrots",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Cave carrots are a protein-rich subspecies of ordinary carrots that has adapted to cave environment.$(p)When you uproot ordinary carrot crops where skylight is completely blocked, their seeds have a $(bold)70% chance$() to become cave carrot seeds."
+    },
+    {
+      "type": "patchouli:text",
+      "anchor": "cult_cave_carrot",
+      "text": "Plant the seeds on $(l:mechanics/crops)farmland$() and provide suitable temperatures and $(l:mechanics/hydration)hydration$(). Cave carrots grow under the same conditions as ordinary carrots:$(br2)$(bold)Temperature: 3–30°C; hydration: 25–100%$().",
+      "title": "Grow Cave Carrots"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "miners_delight:cave_carrot",
+      "text": "Cave carrots draw $(bold)potassium$() from the soil. A good supply improves growth and harvests.$(br2)Harvest mature crops to gather cave carrots and recover seeds for replanting."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Eat cave carrots fresh or heat them into baked cave carrots. They are also essential ingredients for many miner's dishes."
+    }
+  ],
+  "read_by_default": true,
+  "sortnum": 1
+}
