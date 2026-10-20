@@ -46,7 +46,7 @@ public final class CopperPotFluidMenu extends AbstractContainerMenu {
         this.pot = blockEntity instanceof CopperPotBlockEntity copperPot ? copperPot : null;
         this.fluidAccess = pot instanceof ICookingPotFluidAccess access ? access : null;
         this.cookingData = pot == null ? new SimpleContainerData(2)
-                : ((CopperPotBlockEntityAccessor) pot).minersdelighttfc$getCookingPotData();
+                : ((CopperPotBlockEntityAccessor) pot).mdtfc$getCookingPotData();
 
         if (fluidAccess == null || pot == null) {
             SimpleContainer dummy = new SimpleContainer(1);

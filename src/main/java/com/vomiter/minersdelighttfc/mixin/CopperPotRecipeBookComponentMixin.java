@@ -17,7 +17,7 @@ public abstract class CopperPotRecipeBookComponentMixin {
             },
             remap = true
     )
-    private ItemStack minersdelighttfc$displayCopperCup(ItemStack original) {
+    private ItemStack mdtfc$displayCopperCup(ItemStack original) {
         return MDTFCItems.replaceCopperCup(original);
     }
 }

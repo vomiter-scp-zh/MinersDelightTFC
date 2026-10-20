@@ -15,22 +15,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = CopperPotScreen.class, remap = false)
 public abstract class CopperPotScreenMixin extends AbstractContainerScreen<CopperPotMenu> {
-    @Unique private CopperPotFluidButton minersdelighttfc$fluidButton;
+    @Unique private CopperPotFluidButton mdtfc$fluidButton;
 
     protected CopperPotScreenMixin(CopperPotMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
     }
 
     @Inject(method = "init", at = @At("TAIL"), remap = true)
-    private void minersdelighttfc$addFluidButton(CallbackInfo ci) {
-        minersdelighttfc$fluidButton = new CopperPotFluidButton(leftPos + 7, height / 2 - 69, Component.translatable("gui.survivorsdelight.pot.fluid_menu"), menu);
-        addRenderableWidget(minersdelighttfc$fluidButton);
+    private void mdtfc$addFluidButton(CallbackInfo ci) {
+        mdtfc$fluidButton = new CopperPotFluidButton(leftPos + 7, height / 2 - 69, Component.translatable("gui.survivorsdelight.pot.fluid_menu"), menu);
+        addRenderableWidget(mdtfc$fluidButton);
     }
 
     @Inject(method = "lambda$init$0(Lnet/minecraft/client/gui/components/Button;)V", at = @At("TAIL"), remap = false)
-    private void minersdelighttfc$moveFluidButton(Button button, CallbackInfo ci) {
-        if (minersdelighttfc$fluidButton != null) {
-            minersdelighttfc$fluidButton.setPosition(leftPos + 7, height / 2 - 69);
+    private void mdtfc$moveFluidButton(Button button, CallbackInfo ci) {
+        if (mdtfc$fluidButton != null) {
+            mdtfc$fluidButton.setPosition(leftPos + 7, height / 2 - 69);
         }
     }
 }

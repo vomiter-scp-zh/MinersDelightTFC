@@ -34,10 +34,10 @@ import java.util.function.Consumer;
 
 @Mixin(value = Helpers.class, remap = false)
 public abstract class HelpersInfestationMixin {
-    @Unique private static final int minersdelighttfc$MIN_DEPTH = 10;
-    @Unique private static final int minersdelighttfc$DEPTH_STEP = 10;
-    @Unique private static final int minersdelighttfc$PEST_LIMIT = 8;
-    @Unique private static final double minersdelighttfc$PEST_RANGE = 40;
+    @Unique private static final int mdtfc$MIN_DEPTH = 10;
+    @Unique private static final int mdtfc$DEPTH_STEP = 10;
+    @Unique private static final int mdtfc$PEST_LIMIT = 8;
+    @Unique private static final double mdtfc$PEST_RANGE = 40;
 
     // Keep TFC's existing probability reduction, but include the replacement pests.
     @ModifyExpressionValue(
@@ -45,11 +45,11 @@ public abstract class HelpersInfestationMixin {
             at = @At(value = "INVOKE", target = "Ljava/util/List;size()I"),
             require = 1
     )
-    private static int minersdelighttfc$countSilverfish(int pests, Level level, BlockPos pos,
+    private static int mdtfc$countSilverfish(int pests, Level level, BlockPos pos,
                                                         int infestation, @Nullable Player player) {
-        return minersdelighttfc$depth(level, pos) >= minersdelighttfc$MIN_DEPTH
+        return mdtfc$depth(level, pos) >= mdtfc$MIN_DEPTH
                 ? pests + level.getEntitiesOfClass(Silverfish.class,
-                new AABB(pos).inflate(minersdelighttfc$PEST_RANGE)).size()
+                new AABB(pos).inflate(mdtfc$PEST_RANGE)).size()
                 : pests;
     }
 
@@ -59,23 +59,23 @@ public abstract class HelpersInfestationMixin {
             at = @At(value = "INVOKE", target = "Ljava/util/Optional;ifPresent(Ljava/util/function/Consumer;)V"),
             require = 1
     )
-    private static void minersdelighttfc$replaceRat(Optional<EntityType<?>> selected,
+    private static void mdtfc$replaceRat(Optional<EntityType<?>> selected,
                                                     Consumer<? super EntityType<?>> spawn,
                                                     Operation<Void> original, Level level, BlockPos pos,
                                                     int infestation, @Nullable Player player) {
-        int depth = minersdelighttfc$depth(level, pos);
-        if (depth < minersdelighttfc$MIN_DEPTH || selected.isEmpty()
+        int depth = mdtfc$depth(level, pos);
+        if (depth < mdtfc$MIN_DEPTH || selected.isEmpty()
                 || selected.get() != TFCEntities.RAT.get()) {
             original.call(selected, spawn);
             return;
         }
         if (!(level instanceof ServerLevel server) || level.getDifficulty() == Difficulty.PEACEFUL) return;
 
-        AABB bounds = new AABB(pos).inflate(minersdelighttfc$PEST_RANGE);
+        AABB bounds = new AABB(pos).inflate(mdtfc$PEST_RANGE);
         int nearby = level.getEntitiesOfClass(Pest.class, bounds).size()
                 + level.getEntitiesOfClass(Silverfish.class, bounds).size();
-        int count = Math.min(1 + (depth - minersdelighttfc$MIN_DEPTH) / minersdelighttfc$DEPTH_STEP,
-                minersdelighttfc$PEST_LIMIT - nearby);
+        int count = Math.min(1 + (depth - mdtfc$MIN_DEPTH) / mdtfc$DEPTH_STEP,
+                mdtfc$PEST_LIMIT - nearby);
         boolean spawned = false;
         for (int i = 0; i < count; i++) {
             Silverfish silverfish = EntityType.SILVERFISH.create(server);
@@ -100,7 +100,7 @@ public abstract class HelpersInfestationMixin {
     }
 
     @Unique
-    private static int minersdelighttfc$depth(Level level, BlockPos pos) {
+    private static int mdtfc$depth(Level level, BlockPos pos) {
         if (!(level instanceof ServerLevel) || !(level.getBlockEntity(pos) instanceof ChestBlockEntity)) return 0;
         ChunkData data = ChunkData.get(level, pos);
         // TFC's terrain cache is unaffected by trees, roofs or later excavation.

@@ -8,5 +8,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(value = CopperPotBlockEntity.class, remap = false)
 public interface CopperPotBlockEntityAccessor {
     @Accessor("cookingPotData")
-    ContainerData minersdelighttfc$getCookingPotData();
+    ContainerData mdtfc$getCookingPotData();
 }

@@ -51,7 +51,7 @@ public abstract class CopperPotBlockEntityMixin extends BlockEntity {
             method = {"canCook", "processCooking"},
             at = @At(value = "INVOKE", target = "Lvectorwing/farmersdelight/common/crafting/CookingPotRecipe;getResultItem(Lnet/minecraft/core/RegistryAccess;)Lnet/minecraft/world/item/ItemStack;", remap = true)
     )
-    private ItemStack minersdelighttfc$dynamicResult(
+    private ItemStack mdtfc$dynamicResult(
             CookingPotRecipe recipe, RegistryAccess access, Operation<ItemStack> original
     ) {
         ItemStack result = original.call(recipe, access);
@@ -70,7 +70,7 @@ public abstract class CopperPotBlockEntityMixin extends BlockEntity {
             method = {"canCook", "processCooking"},
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;setTag(Lnet/minecraft/nbt/CompoundTag;)V", remap = true)
     )
-    private void minersdelighttfc$preserveCupFood(
+    private void mdtfc$preserveCupFood(
             ItemStack cup, CompoundTag tag, Operation<Void> original,
             @Local(ordinal = 0) ItemStack meal
     ) {
@@ -95,7 +95,7 @@ public abstract class CopperPotBlockEntityMixin extends BlockEntity {
             method = {"canCook", "processCooking"},
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isSameItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z", remap = true)
     )
-    private boolean minersdelighttfc$foodAwareComparison(
+    private boolean mdtfc$foodAwareComparison(
             ItemStack stored, ItemStack incoming, Operation<Boolean> original
     ) {
         if (FoodCapability.get(stored) != null || FoodCapability.get(incoming) != null) {
@@ -108,7 +108,7 @@ public abstract class CopperPotBlockEntityMixin extends BlockEntity {
             method = "processCooking",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;grow(I)V", remap = true)
     )
-    private void minersdelighttfc$foodAwareMerge(
+    private void mdtfc$foodAwareMerge(
             ItemStack stored, int amount, Operation<Void> original, @Local(ordinal = 0) ItemStack result
     ) {
         if (FoodCapability.get(stored) != null || FoodCapability.get(result) != null) {
@@ -122,7 +122,7 @@ public abstract class CopperPotBlockEntityMixin extends BlockEntity {
             method = "isContainerValid",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isSameItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)Z", remap = true)
     )
-    private boolean minersdelighttfc$expandContainer(
+    private boolean mdtfc$expandContainer(
             ItemStack expected, ItemStack supplied, Operation<Boolean> original
     ) {
         ItemStack actualExpected = MDTFCItems.replaceCopperCup(expected);
@@ -138,24 +138,24 @@ public abstract class CopperPotBlockEntityMixin extends BlockEntity {
                     @At(value = "INVOKE", target = "Lvectorwing/farmersdelight/common/crafting/CookingPotRecipe;getOutputContainer()Lnet/minecraft/world/item/ItemStack;")
             }
     )
-    private ItemStack minersdelighttfc$useCopperCup(ItemStack original) {
+    private ItemStack mdtfc$useCopperCup(ItemStack original) {
         return MDTFCItems.replaceCopperCup(original);
     }
 
     @Inject(method = "getContainer", at = @At("RETURN"), cancellable = true)
-    private void minersdelighttfc$displayCopperCup(CallbackInfoReturnable<ItemStack> cir) {
+    private void mdtfc$displayCopperCup(CallbackInfoReturnable<ItemStack> cir) {
         cir.setReturnValue(MDTFCItems.replaceCopperCup(cir.getReturnValue()));
     }
 
     @Inject(method = "isContainerValid", at = @At("HEAD"), cancellable = true)
-    private void minersdelighttfc$requireEmptyCup(ItemStack container, CallbackInfoReturnable<Boolean> cir) {
+    private void mdtfc$requireEmptyCup(ItemStack container, CallbackInfoReturnable<Boolean> cir) {
         if (container.is(MDTFCItems.COPPER_CUP.get()) && !MDTFCItems.isEmptyCopperCup(container)) {
             cir.setReturnValue(false);
         }
     }
 
     @Inject(method = "useHeldItemOnMeal", at = @At("HEAD"), cancellable = true)
-    private void minersdelighttfc$applyHeldContainer(
+    private void mdtfc$applyHeldContainer(
             ItemStack container, CallbackInfoReturnable<ItemStack> cir
     ) {
         ItemStack meal = getMeal();
@@ -174,7 +174,7 @@ public abstract class CopperPotBlockEntityMixin extends BlockEntity {
     }
 
     @Inject(method = "useStoredContainersOnMeal", at = @At("HEAD"), cancellable = true)
-    private void minersdelighttfc$applyStoredContainers(CallbackInfo ci) {
+    private void mdtfc$applyStoredContainers(CallbackInfo ci) {
         ItemStack meal = inventory.getStackInSlot(CopperPotBlockEntity.MEAL_DISPLAY_SLOT);
         ItemStack containers = inventory.getStackInSlot(CopperPotBlockEntity.CONTAINER_SLOT);
         ItemStack output = inventory.getStackInSlot(CopperPotBlockEntity.OUTPUT_SLOT);

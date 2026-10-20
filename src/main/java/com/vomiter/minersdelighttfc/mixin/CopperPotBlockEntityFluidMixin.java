@@ -45,14 +45,14 @@ import java.util.List;
 public abstract class CopperPotBlockEntityFluidMixin extends BlockEntity implements ICookingPotFluidAccess {
     @Shadow private boolean checkNewRecipe;
 
-    @Unique private final List<Player> minersdelighttfc$players = new ArrayList<>();
-    @Unique private final FluidTank minersdelighttfc$tank = new FluidTank(4000) {
-        @Override protected void onContentsChanged() { minersdelighttfc$setChangedAndSync(); }
+    @Unique private final List<Player> mdtfc$players = new ArrayList<>();
+    @Unique private final FluidTank mdtfc$tank = new FluidTank(4000) {
+        @Override protected void onContentsChanged() { mdtfc$setChangedAndSync(); }
     };
-    @Unique private final LazyOptional<IFluidHandler> minersdelighttfc$fluidCap =
-            LazyOptional.of(() -> minersdelighttfc$tank);
-    @Unique private final ItemStackHandler minersdelighttfc$auxInv = new ItemStackHandler(2) {
-        @Override protected void onContentsChanged(int slot) { minersdelighttfc$setChangedAndSync(); }
+    @Unique private final LazyOptional<IFluidHandler> mdtfc$fluidCap =
+            LazyOptional.of(() -> mdtfc$tank);
+    @Unique private final ItemStackHandler mdtfc$auxInv = new ItemStackHandler(2) {
+        @Override protected void onContentsChanged(int slot) { mdtfc$setChangedAndSync(); }
         @Override public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return slot == 0 && (stack.getItem() instanceof BucketItem
                     || stack.getItem() instanceof FluidContainerItem
@@ -65,8 +65,8 @@ public abstract class CopperPotBlockEntityFluidMixin extends BlockEntity impleme
         super(type, pos, state);
     }
 
-    @Override public FluidTank sdtfc$getTank() { return minersdelighttfc$tank; }
-    @Override public ItemStackHandler sdtfc$getAuxInv() { return minersdelighttfc$auxInv; }
+    @Override public FluidTank sdtfc$getTank() { return mdtfc$tank; }
+    @Override public ItemStackHandler sdtfc$getAuxInv() { return mdtfc$auxInv; }
     @Override public ItemStackHandler sdtfc$getInventory() {
         return ((CopperPotBlockEntity) (Object) this).getInventory();
     }
@@ -74,24 +74,24 @@ public abstract class CopperPotBlockEntityFluidMixin extends BlockEntity impleme
         CopperPotFluidIO.updateFluidIOSlots((CopperPotBlockEntity) (Object) this);
     }
     @Override public void sdtfc$addPlayer(Player player) {
-        if (!minersdelighttfc$players.contains(player)) minersdelighttfc$players.add(player);
+        if (!mdtfc$players.contains(player)) mdtfc$players.add(player);
     }
-    @Override public void sdtfc$removePlayer(Player player) { minersdelighttfc$players.remove(player); }
-    @Override public List<Player> sdtfc$getPlayers() { return minersdelighttfc$players; }
+    @Override public void sdtfc$removePlayer(Player player) { mdtfc$players.remove(player); }
+    @Override public List<Player> sdtfc$getPlayers() { return mdtfc$players; }
     @Override public void sdtfc$setCheckNewRecipe(boolean value) { checkNewRecipe = value; }
 
     @Inject(method = "getCapability", at = @At("HEAD"), cancellable = true)
-    private <T> void minersdelighttfc$fluidCapability(
+    private <T> void mdtfc$fluidCapability(
             Capability<T> capability, @Nullable Direction side,
             CallbackInfoReturnable<LazyOptional<T>> cir
     ) {
         if (capability == ForgeCapabilities.FLUID_HANDLER) {
-            cir.setReturnValue(minersdelighttfc$fluidCap.cast());
+            cir.setReturnValue(mdtfc$fluidCap.cast());
         }
     }
 
     @Inject(method = "cookingTick", at = @At("HEAD"))
-    private static void minersdelighttfc$fluidIO(
+    private static void mdtfc$fluidIO(
             Level level, BlockPos pos, BlockState state, CopperPotBlockEntity pot, CallbackInfo ci
     ) {
         if (!level.isClientSide) CopperPotFluidIO.updateFluidIOSlots(pot);
@@ -101,7 +101,7 @@ public abstract class CopperPotBlockEntityFluidMixin extends BlockEntity impleme
             method = "cookingTick",
             at = @At(value = "INVOKE", target = "Lcom/sammy/minersdelight/content/block/copper_pot/CopperPotBlockEntity;createFakeRecipeWrapper()Lnet/minecraftforge/items/wrapper/RecipeWrapper;")
     )
-    private static RecipeWrapper minersdelighttfc$fluidRecipeWrapper(
+    private static RecipeWrapper mdtfc$fluidRecipeWrapper(
             CopperPotBlockEntity pot, Operation<RecipeWrapper> original
     ) {
         ItemStackHandler source = pot.getInventory();
@@ -115,52 +115,52 @@ public abstract class CopperPotBlockEntityFluidMixin extends BlockEntity impleme
     }
 
     @Inject(method = "processCooking", at = @At("RETURN"))
-    private void minersdelighttfc$drainFluid(
+    private void mdtfc$drainFluid(
             CookingPotRecipe recipe, CopperPotBlockEntity self, CallbackInfoReturnable<Boolean> cir
     ) {
         if (!cir.getReturnValue() || !(recipe instanceof IFluidRequiringRecipe fluidRecipe)) return;
         if (fluidRecipe.sdtfc$getFluidIngredient() != null && fluidRecipe.sdtfc$getRequiredFluidAmount() > 0) {
-            minersdelighttfc$tank.drain(
+            mdtfc$tank.drain(
                     fluidRecipe.sdtfc$getRequiredFluidAmount(), IFluidHandler.FluidAction.EXECUTE
             );
         }
     }
 
     @Inject(method = "load", at = @At("TAIL"), remap = true)
-    private void minersdelighttfc$loadFluid(CompoundTag tag, CallbackInfo ci) {
+    private void mdtfc$loadFluid(CompoundTag tag, CallbackInfo ci) {
         if (tag.contains("minersdelighttfc:pot_tank", Tag.TAG_COMPOUND)) {
-            minersdelighttfc$tank.readFromNBT(tag.getCompound("minersdelighttfc:pot_tank"));
+            mdtfc$tank.readFromNBT(tag.getCompound("minersdelighttfc:pot_tank"));
         }
         if (tag.contains("minersdelighttfc:aux_inv", Tag.TAG_COMPOUND)) {
-            minersdelighttfc$auxInv.deserializeNBT(tag.getCompound("minersdelighttfc:aux_inv"));
+            mdtfc$auxInv.deserializeNBT(tag.getCompound("minersdelighttfc:aux_inv"));
         }
     }
 
     @Inject(method = "saveAdditional", at = @At("TAIL"), remap = true)
-    private void minersdelighttfc$saveFluid(CompoundTag tag, CallbackInfo ci) {
-        minersdelighttfc$writeFluid(tag);
+    private void mdtfc$saveFluid(CompoundTag tag, CallbackInfo ci) {
+        mdtfc$writeFluid(tag);
     }
 
     @Inject(method = "getUpdateTag", at = @At("RETURN"), cancellable = true, remap = true)
-    private void minersdelighttfc$updateTag(CallbackInfoReturnable<CompoundTag> cir) {
+    private void mdtfc$updateTag(CallbackInfoReturnable<CompoundTag> cir) {
         CompoundTag tag = cir.getReturnValue();
-        minersdelighttfc$writeFluid(tag);
+        mdtfc$writeFluid(tag);
         cir.setReturnValue(tag);
     }
 
     @Inject(method = "setRemoved", at = @At("TAIL"), remap = true)
-    private void minersdelighttfc$invalidateFluid(CallbackInfo ci) {
-        minersdelighttfc$fluidCap.invalidate();
+    private void mdtfc$invalidateFluid(CallbackInfo ci) {
+        mdtfc$fluidCap.invalidate();
     }
 
-    @Unique private void minersdelighttfc$writeFluid(CompoundTag tag) {
+    @Unique private void mdtfc$writeFluid(CompoundTag tag) {
         CompoundTag tankTag = new CompoundTag();
-        minersdelighttfc$tank.writeToNBT(tankTag);
+        mdtfc$tank.writeToNBT(tankTag);
         tag.put("minersdelighttfc:pot_tank", tankTag);
-        tag.put("minersdelighttfc:aux_inv", minersdelighttfc$auxInv.serializeNBT());
+        tag.put("minersdelighttfc:aux_inv", mdtfc$auxInv.serializeNBT());
     }
 
-    @Unique private void minersdelighttfc$setChangedAndSync() {
+    @Unique private void mdtfc$setChangedAndSync() {
         setChanged();
         if (level != null && !level.isClientSide) {
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);

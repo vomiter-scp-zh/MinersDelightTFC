@@ -30,12 +30,12 @@ public abstract class CopperPotCookingRecipeCategoryMixin {
                     @At(value = "INVOKE", target = "Lvectorwing/farmersdelight/common/crafting/CookingPotRecipe;getOutputContainer()Lnet/minecraft/world/item/ItemStack;")
             }
     )
-    private ItemStack minersdelighttfc$displayCopperCup(ItemStack original) {
+    private ItemStack mdtfc$displayCopperCup(ItemStack original) {
         return MDTFCItems.replaceCopperCup(original);
     }
 
     @Inject(method = "setRecipe*", at = @At("TAIL"))
-    private void minersdelighttfc$fluidIngredient(
+    private void mdtfc$fluidIngredient(
             IRecipeLayoutBuilder builder, CookingPotRecipe recipe, IFocusGroup focuses, CallbackInfo ci
     ) {
         FluidStackIngredient ingredient = ((IFluidRequiringRecipe) recipe).sdtfc$getFluidIngredient();

@@ -22,7 +22,7 @@ public abstract class CopperPotMenuMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getItem()Lnet/minecraft/world/item/Item;", remap = true),
             remap = true
     )
-    private Item minersdelighttfc$recognizeEmptyCopperCup(ItemStack stack, Operation<Item> original) {
+    private Item mdtfc$recognizeEmptyCopperCup(ItemStack stack, Operation<Item> original) {
         return MDTFCItems.isEmptyCopperCup(stack) ? MDItems.COPPER_CUP.get() : original.call(stack);
     }
 
@@ -30,7 +30,7 @@ public abstract class CopperPotMenuMixin {
             method = "recipeMatches",
             at = @At(value = "INVOKE", target = "Lcom/sammy/minersdelight/content/block/copper_pot/CopperPotBlockEntity;createFakeRecipeWrapper()Lnet/minecraftforge/items/wrapper/RecipeWrapper;")
     )
-    private RecipeWrapper minersdelighttfc$fluidRecipeBookWrapper(
+    private RecipeWrapper mdtfc$fluidRecipeBookWrapper(
             CopperPotBlockEntity pot, Operation<RecipeWrapper> original
     ) {
         ItemStackHandler source = pot.getInventory();
