@@ -1,0 +1,21 @@
+{
+  "ingredients": [
+    {
+      "ingredient": {
+        "tag": "miners_delight:baked_cave_carrot"
+      },
+      "min": 1
+    },
+    {
+      "ingredient": {
+        "item": "tfc:food/onion"
+      },
+      "min": 1
+    }
+  ],
+  "meal": {
+    "item": "tfc:food/wheat_bread_sandwich"
+  },
+  "model": "miners_delight:item/vegan_wrap",
+  "priority": 60
+}

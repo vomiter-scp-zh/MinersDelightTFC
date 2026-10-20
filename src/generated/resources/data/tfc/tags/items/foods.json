@@ -1,0 +1,23 @@
+{
+  "replace": false,
+  "values": [
+    "miners_delight:bat_wing",
+    "miners_delight:spider_leg",
+    "miners_delight:arthropod",
+    "miners_delight:squid",
+    "miners_delight:glow_squid",
+    "miners_delight:tentacles",
+    "miners_delight:smoked_bat_wing",
+    "miners_delight:baked_spider_leg",
+    "miners_delight:cooked_arthropod",
+    "miners_delight:baked_squid",
+    "miners_delight:baked_tentacles",
+    "miners_delight:cave_carrot",
+    "miners_delight:baked_cave_carrot",
+    "miners_delight:vegan_patty",
+    "miners_delight:moss",
+    "miners_delight:silverfish_eggs",
+    "miners_delight:crunchy_bar",
+    "miners_delight:weird_caviar"
+  ]
+}

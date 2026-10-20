@@ -1,0 +1,32 @@
+{
+  "ingredients": [
+    {
+      "ingredient": {
+        "tag": "miners_delight:cooked_insect_meat"
+      },
+      "min": 1
+    },
+    {
+      "ingredient": [
+        {
+          "item": "miners_delight:baked_spider_leg"
+        },
+        {
+          "item": "miners_delight:cooked_arthropod"
+        },
+        {
+          "item": "miners_delight:crunchy_bar"
+        },
+        {
+          "item": "miners_delight:weird_caviar"
+        }
+      ],
+      "min": 2
+    }
+  ],
+  "meal": {
+    "item": "tfc:food/wheat_bread_sandwich"
+  },
+  "model": "miners_delight:item/insect_sandwich",
+  "priority": 70
+}

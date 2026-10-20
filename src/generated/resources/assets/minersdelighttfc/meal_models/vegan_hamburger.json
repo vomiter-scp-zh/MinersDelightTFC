@@ -1,0 +1,32 @@
+{
+  "ingredients": [
+    {
+      "ingredient": {
+        "item": "miners_delight:vegan_patty"
+      },
+      "min": 1
+    },
+    {
+      "ingredient": [
+        {
+          "item": "tfc:food/cabbage"
+        },
+        {
+          "item": "farmersdelight:cabbage_leaf"
+        }
+      ],
+      "min": 1
+    },
+    {
+      "ingredient": {
+        "item": "tfc:food/tomato"
+      },
+      "min": 1
+    }
+  ],
+  "meal": {
+    "item": "tfc:food/wheat_bread_sandwich"
+  },
+  "model": "miners_delight:item/vegan_hamburger",
+  "priority": 90
+}

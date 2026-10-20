@@ -311,7 +311,7 @@ public final class MDTFCCookingRecipeProvider extends RecipeProvider {
         food.newBuilder("servings/glazed_arachnid_limbs").item(MDItems.PLATE_OF_GLAZED_ARACHNID_LIMBS.get())
                 .type("dynamic").save();
 
-        // Keep food capabilities for existing meals while their recipes await redesign.
+        // Preserve food capabilities on existing MD meals. New sandwiches use TFC meals and client model rules.
         food.newBuilder("vegan_hamburger").item(MDItems.VEGAN_HAMBURGER.get())
                 .type("dynamic").save();
         food.newBuilder("vegan_wrap").item(MDItems.VEGAN_WRAP.get())
@@ -348,7 +348,7 @@ public final class MDTFCCookingRecipeProvider extends RecipeProvider {
     }
 
     private void saveAssemblyRecipes(Consumer<FinishedRecipe> output) {
-        // TODO: Revisit TFC bread sandwiches, hamburgers and wraps before adding recipes again.
+        // Sandwich appearances are selected by MDTFCMealModelProvider from TFC meal ingredients.
 
         foodAndRecipes.craftingShapeless("improvised_barbecue_stick", MDItems.IMPROVISED_BARBECUE_STICK.get(), 1)
                 .requires(fresh(BAKED_CAVE_CARROT))

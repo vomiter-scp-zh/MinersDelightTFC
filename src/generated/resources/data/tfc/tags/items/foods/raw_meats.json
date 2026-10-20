@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "miners_delight:bat_wing",
+    "miners_delight:spider_leg",
+    "miners_delight:arthropod",
+    "miners_delight:squid",
+    "miners_delight:glow_squid",
+    "miners_delight:tentacles"
+  ]
+}

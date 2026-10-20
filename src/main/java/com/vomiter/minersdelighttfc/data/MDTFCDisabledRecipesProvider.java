@@ -37,7 +37,7 @@ public final class MDTFCDisabledRecipesProvider implements DataProvider {
         try (var files = Files.walk(root)) {
             for (Path file : files.filter(p -> p.toString().endsWith(".json")).sorted().toList()) {
                 String path = root.relativize(file).toString().replace('\\', '/');
-                ResourceLocation id = ResourceLocation.fromNamespaceAndPath(MD, path.substring(0, path.length() - 5));
+                ResourceLocation id = ResourceLocation.fromNamespaceAndPath(namespace, path.substring(0, path.length() - 5));
                 saves.add(DataProvider.saveStable(cache, disabled, recipes.json(id)));
             }
         } catch (IOException e) {
