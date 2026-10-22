@@ -2,6 +2,7 @@ package com.vomiter.minersdelighttfc.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.sammy.minersdelight.content.block.copper_pot.CopperPotMenu;
+import com.vomiter.minersdelighttfc.network.MDTFCNetwork;
 import com.vomiter.minersdelighttfc.network.packet.OpenCopperPotFluidMenuC2SPacket;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid.ICookingPotFluidAccess;
 import com.vomiter.survivorsdelight.network.SDNetwork;
@@ -48,7 +49,7 @@ public class CopperPotFluidButton extends AbstractButton {
     }
 
     public void onPress() {
-        SDNetwork.CHANNEL.sendToServer(new OpenCopperPotFluidMenuC2SPacket(this.menu.containerId, this.menu.blockEntity.getBlockPos()));
+        MDTFCNetwork.CHANNEL.sendToServer(new OpenCopperPotFluidMenuC2SPacket(this.menu.containerId, this.menu.blockEntity.getBlockPos()));
     }
 
     protected void renderWidget(@NotNull GuiGraphics gg, int mouseX, int mouseY, float partialTick) {

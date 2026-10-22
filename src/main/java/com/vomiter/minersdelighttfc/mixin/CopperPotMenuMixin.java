@@ -28,7 +28,8 @@ public abstract class CopperPotMenuMixin {
 
     @WrapOperation(
             method = "recipeMatches",
-            at = @At(value = "INVOKE", target = "Lcom/sammy/minersdelight/content/block/copper_pot/CopperPotBlockEntity;createFakeRecipeWrapper()Lnet/minecraftforge/items/wrapper/RecipeWrapper;")
+            at = @At(value = "INVOKE", target = "Lcom/sammy/minersdelight/content/block/copper_pot/CopperPotBlockEntity;createFakeRecipeWrapper()Lnet/minecraftforge/items/wrapper/RecipeWrapper;", remap = false)
+            , remap = true
     )
     private RecipeWrapper mdtfc$fluidRecipeBookWrapper(
             CopperPotBlockEntity pot, Operation<RecipeWrapper> original
