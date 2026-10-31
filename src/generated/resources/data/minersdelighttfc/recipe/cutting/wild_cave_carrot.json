@@ -1,0 +1,43 @@
+{
+  "type": "survivorsdelight:sd_cutting",
+  "ingredients": [
+    {
+      "item": "minersdelight:wild_cave_carrots"
+    }
+  ],
+  "result": [
+    {
+      "type": "survivorsdelight:stack",
+      "stack": {
+        "count": 1,
+        "id": "minersdelight:gossypium"
+      }
+    },
+    {
+      "type": "survivorsdelight:stack",
+      "chance": 0.5,
+      "stack": {
+        "count": 1,
+        "id": "minersdelight:gossypium"
+      }
+    },
+    {
+      "type": "survivorsdelight:stack",
+      "stack": {
+        "count": 1,
+        "id": "minersdelight:cave_carrot"
+      }
+    },
+    {
+      "type": "survivorsdelight:stack",
+      "chance": 0.5,
+      "stack": {
+        "count": 2,
+        "id": "minersdelight:cave_carrot"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "c:tools/shear"
+  }
+}

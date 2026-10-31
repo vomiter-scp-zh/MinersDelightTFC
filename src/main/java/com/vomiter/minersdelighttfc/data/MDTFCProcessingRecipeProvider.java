@@ -6,9 +6,10 @@ import com.sammy.minersdelight.setup.MDBlocks;
 import com.sammy.minersdelight.setup.MDItems;
 import com.vomiter.minersdelighttfc.MinersDelightTFC;
 import com.vomiter.minersdelighttfc.registry.MDTFCItems;
-import com.vomiter.survivorsdelight.data.recipe.builder.SDJsonAdapters;
+import net.minecraft.core.HolderLookup;
 import net.dries007.tfc.common.items.TFCItems;
 import net.dries007.tfc.common.recipes.ingredients.NotRottenIngredient;
+import net.dries007.tfc.common.recipes.ingredients.AndIngredient;
 import net.dries007.tfc.common.recipes.outputs.CopyFoodModifier;
 import net.dries007.tfc.common.recipes.outputs.ItemStackProvider;
 import net.dries007.tfc.util.Metal;
@@ -26,16 +27,19 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 public final class MDTFCProcessingRecipeProvider implements DataProvider {
+    private final CompletableFuture<HolderLookup.Provider> lookup;
     private final PackOutput.PathProvider recipes;
     private final PackOutput.PathProvider heats;
 
-    public MDTFCProcessingRecipeProvider(PackOutput output) {
-        recipes = output.createPathProvider(PackOutput.Target.DATA_PACK, "recipes");
-        heats = output.createPathProvider(PackOutput.Target.DATA_PACK, "tfc/item_heats");
+    public MDTFCProcessingRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookup) {
+        this.lookup = lookup;
+        recipes = output.createPathProvider(PackOutput.Target.DATA_PACK, "recipe");
+        heats = output.createPathProvider(PackOutput.Target.DATA_PACK, "tfc/item_heat");
     }
 
     @Override
     public CompletableFuture<?> run(CachedOutput cache) {
+        return lookup.thenCompose(registries -> {
         var saves = new ArrayList<CompletableFuture<?>>();
         List<Heating> heating = List.of(
                 new Heating("cave_carrot", MDItems.CAVE_CARROT.get(), MDItems.BAKED_CAVE_CARROT.get()),
@@ -49,24 +53,24 @@ public final class MDTFCProcessingRecipeProvider implements DataProvider {
         for (Heating entry : heating) {
             JsonObject json = new JsonObject();
             json.addProperty("type", "tfc:heating");
-            json.add("ingredient", NotRottenIngredient.of(Ingredient.of(entry.input())).toJson());
-            json.add("result_item", SDJsonAdapters.writeISP(ItemStackProvider.of(
-                    new ItemStack(entry.result()), CopyFoodModifier.INSTANCE)));
+            json.add("ingredient", MDTFCJson.ingredient(AndIngredient.of(Ingredient.of(entry.input()), NotRottenIngredient.INSTANCE)));
+            json.add("result_item", MDTFCJson.provider(ItemStackProvider.of(
+                    new ItemStack(entry.result()), CopyFoodModifier.INSTANCE), registries));
             json.addProperty("temperature", 200);
             saves.add(DataProvider.saveStable(cache, json, recipes.json(MinersDelightTFC.id("heating/" + entry.path()))));
         }
         JsonObject heat = new JsonObject();
-        heat.add("ingredient", Ingredient.of(heating.stream()
+        heat.add("ingredient", MDTFCJson.ingredient(Ingredient.of(heating.stream()
                 .flatMap(entry -> Stream.of(entry.input(), entry.result())).distinct()
-                .toArray(ItemLike[]::new)).toJson());
+                .toArray(ItemLike[]::new))));
         heat.addProperty("heat_capacity", 1.0);
         saves.add(DataProvider.saveStable(cache, heat, heats.json(MinersDelightTFC.id("basic_ingredients"))));
 
         JsonObject pot = new JsonObject();
         pot.addProperty("type", "tfc:anvil");
-        pot.add("input", Ingredient.of(TFCItems.METAL_ITEMS.get(Metal.Default.COPPER)
-                .get(Metal.ItemType.DOUBLE_SHEET).get()).toJson());
-        pot.add("result", SDJsonAdapters.stackToJson(new ItemStack(MDBlocks.COPPER_POT.get())));
+        pot.add("ingredient", MDTFCJson.ingredient(Ingredient.of(TFCItems.METAL_ITEMS.get(Metal.COPPER)
+                .get(Metal.ItemType.DOUBLE_SHEET).get())));
+        pot.add("result", MDTFCJson.stack(new ItemStack(MDBlocks.COPPER_POT.get()), registries));
         pot.addProperty("tier", 1);
         JsonArray rules = new JsonArray();
         rules.add("bend_last");
@@ -78,9 +82,9 @@ public final class MDTFCProcessingRecipeProvider implements DataProvider {
         // Match SD gold flakes: one ingot, tier 0, three final draws, four leaves.
         JsonObject leaf = new JsonObject();
         leaf.addProperty("type", "tfc:anvil");
-        leaf.add("input", Ingredient.of(TFCItems.METAL_ITEMS.get(Metal.Default.COPPER)
-                .get(Metal.ItemType.INGOT).get()).toJson());
-        leaf.add("result", SDJsonAdapters.stackToJson(new ItemStack(MDTFCItems.COPPER_LEAF.get(), 4)));
+        leaf.add("ingredient", MDTFCJson.ingredient(Ingredient.of(TFCItems.METAL_ITEMS.get(Metal.COPPER)
+                .get(Metal.ItemType.INGOT).get())));
+        leaf.add("result", MDTFCJson.stack(new ItemStack(MDTFCItems.COPPER_LEAF.get(), 4), registries));
         leaf.addProperty("tier", 0);
         JsonArray leafRules = new JsonArray();
         leafRules.add("draw_third_last");
@@ -91,17 +95,23 @@ public final class MDTFCProcessingRecipeProvider implements DataProvider {
         saves.add(DataProvider.saveStable(cache, leaf, recipes.json(MinersDelightTFC.id("anvil/copper_leaf"))));
 
         JsonObject spinning = new JsonObject();
-        spinning.addProperty("type", "tfc:damage_inputs_shapeless_crafting");
-        JsonObject inner = new JsonObject();
-        inner.addProperty("type", "minecraft:crafting_shapeless");
+        spinning.addProperty("type", "tfc:advanced_shapeless_crafting");
         JsonArray ingredients = new JsonArray();
-        ingredients.add(Ingredient.of(TFCItems.SPINDLE.get()).toJson());
-        ingredients.add(Ingredient.of(MDBlocks.GOSSYPIUM.get()).toJson());
-        inner.add("ingredients", ingredients);
-        inner.add("result", SDJsonAdapters.stackToJson(new ItemStack(Items.STRING, 2)));
-        spinning.add("recipe", inner);
+        ingredients.add(MDTFCJson.ingredient(Ingredient.of(TFCItems.SPINDLE.get())));
+        ingredients.add(MDTFCJson.ingredient(Ingredient.of(MDBlocks.GOSSYPIUM.get())));
+        spinning.add("ingredients", ingredients);
+        spinning.add("primary_ingredient", MDTFCJson.ingredient(Ingredient.of(TFCItems.SPINDLE.get())));
+        JsonObject remainder = new JsonObject();
+        JsonArray modifiers = new JsonArray();
+        JsonObject damage = new JsonObject();
+        damage.addProperty("type", "tfc:damage_crafting_remainder");
+        modifiers.add(damage);
+        remainder.add("modifiers", modifiers);
+        spinning.add("remainder", remainder);
+        spinning.add("result", MDTFCJson.stack(new ItemStack(Items.STRING, 2), registries));
         saves.add(DataProvider.saveStable(cache, spinning, recipes.json(MinersDelightTFC.id("crafting/string_from_gossypium"))));
         return CompletableFuture.allOf(saves.toArray(CompletableFuture[]::new));
+        });
     }
 
     @Override

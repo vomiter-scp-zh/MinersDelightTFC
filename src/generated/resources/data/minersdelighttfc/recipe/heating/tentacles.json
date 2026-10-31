@@ -1,0 +1,26 @@
+{
+  "type": "tfc:heating",
+  "ingredient": {
+    "type": "tfc:and",
+    "children": [
+      {
+        "item": "minersdelight:tentacles"
+      },
+      {
+        "type": "tfc:not_rotten"
+      }
+    ]
+  },
+  "result_item": {
+    "modifiers": [
+      {
+        "type": "tfc:copy_food"
+      }
+    ],
+    "stack": {
+      "count": 1,
+      "id": "minersdelight:baked_tentacles"
+    }
+  },
+  "temperature": 200
+}

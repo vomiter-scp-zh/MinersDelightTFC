@@ -1,0 +1,45 @@
+{
+  "type": "survivorsdelight:sd_cooking_pot",
+  "container": {
+    "count": 1,
+    "id": "minecraft:bowl"
+  },
+  "experience": 1.0,
+  "fluid": {
+    "tag": "survivorsdelight:cooking_oils"
+  },
+  "fluid_amount": 100,
+  "ingredients": [
+    {
+      "type": "tfc:and",
+      "children": [
+        [
+          {
+            "item": "minersdelight:cooked_arthropod"
+          },
+          {
+            "item": "minersdelight:crunchy_bar"
+          }
+        ],
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    },
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "item": "minersdelight:weird_caviar"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "minersdelight:seasoned_arthropods"
+  }
+}

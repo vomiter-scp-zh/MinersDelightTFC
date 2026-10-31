@@ -7,8 +7,10 @@ import com.sammy.minersdelight.content.block.copper_pot.CopperPotResultSlot;
 import com.sammy.minersdelight.setup.MDBlocks;
 import com.vomiter.minersdelighttfc.mixin.CopperPotBlockEntityAccessor;
 import com.vomiter.minersdelighttfc.registry.MDTFCMenuTypes;
-import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid.ICookingPotFluidAccess;
+import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid_handle.ICookingPotFluidAccess;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -20,9 +22,9 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.SlotItemHandler;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 import vectorwing.farmersdelight.common.block.entity.container.CookingPotMealSlot;
 
@@ -61,7 +63,7 @@ public final class CopperPotFluidMenu extends AbstractContainerMenu {
             addSlot(new FluidOutputSlot(aux, 1, 57, 55));
             addSlot(new CookingPotMealSlot(pot.getInventory(), CopperPotBlockEntity.MEAL_DISPLAY_SLOT, 124, 26));
             addSlot(new SlotItemHandler(pot.getInventory(), CopperPotBlockEntity.CONTAINER_SLOT, 92, 55) {
-                @Override public Pair<net.minecraft.resources.ResourceLocation, net.minecraft.resources.ResourceLocation> getNoItemIcon() {
+                @Override public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
                     return Pair.of(InventoryMenu.BLOCK_ATLAS, CopperPotMenu.EMPTY_CONTAINER_SLOT_CUP);
                 }
             });
@@ -97,7 +99,7 @@ public final class CopperPotFluidMenu extends AbstractContainerMenu {
 
     @Override public boolean stillValid(@NotNull Player player) {
         return pot != null && stillValid(
-                net.minecraft.world.inventory.ContainerLevelAccess.create(pot.getLevel(), pos),
+                ContainerLevelAccess.create(pot.getLevel(), pos),
                 player, MDBlocks.COPPER_POT.get()
         );
     }

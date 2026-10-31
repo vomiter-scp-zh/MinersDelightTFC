@@ -1,0 +1,44 @@
+{
+  "heat_capacity": 1.0,
+  "ingredient": [
+    {
+      "item": "minersdelight:cave_carrot"
+    },
+    {
+      "item": "minersdelight:baked_cave_carrot"
+    },
+    {
+      "item": "minersdelight:bat_wing"
+    },
+    {
+      "item": "minersdelight:smoked_bat_wing"
+    },
+    {
+      "item": "minersdelight:spider_leg"
+    },
+    {
+      "item": "minersdelight:baked_spider_leg"
+    },
+    {
+      "item": "minersdelight:arthropod"
+    },
+    {
+      "item": "minersdelight:cooked_arthropod"
+    },
+    {
+      "item": "minersdelight:squid"
+    },
+    {
+      "item": "minersdelight:baked_squid"
+    },
+    {
+      "item": "minersdelight:glow_squid"
+    },
+    {
+      "item": "minersdelight:tentacles"
+    },
+    {
+      "item": "minersdelight:baked_tentacles"
+    }
+  ]
+}

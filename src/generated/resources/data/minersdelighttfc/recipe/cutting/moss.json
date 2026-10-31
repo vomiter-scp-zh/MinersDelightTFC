@@ -1,0 +1,20 @@
+{
+  "type": "survivorsdelight:sd_cutting",
+  "ingredients": [
+    {
+      "item": "minecraft:moss_block"
+    }
+  ],
+  "result": [
+    {
+      "type": "survivorsdelight:stack",
+      "stack": {
+        "count": 4,
+        "id": "minersdelight:moss"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "c:tools/shear"
+  }
+}

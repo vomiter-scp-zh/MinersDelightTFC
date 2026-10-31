@@ -1,0 +1,26 @@
+{
+  "type": "tfc:heating",
+  "ingredient": {
+    "type": "tfc:and",
+    "children": [
+      {
+        "item": "minersdelight:cave_carrot"
+      },
+      {
+        "type": "tfc:not_rotten"
+      }
+    ]
+  },
+  "result_item": {
+    "modifiers": [
+      {
+        "type": "tfc:copy_food"
+      }
+    ],
+    "stack": {
+      "count": 1,
+      "id": "minersdelight:baked_cave_carrot"
+    }
+  },
+  "temperature": 200
+}

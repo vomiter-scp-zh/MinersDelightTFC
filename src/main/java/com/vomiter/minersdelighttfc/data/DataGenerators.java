@@ -3,7 +3,7 @@ package com.vomiter.minersdelighttfc.data;
 import com.vomiter.minersdelighttfc.MinersDelightTFC;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
-import net.minecraftforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 public final class DataGenerators {
     private DataGenerators() {}
@@ -20,8 +20,7 @@ public final class DataGenerators {
         if (event.includeServer()) {
             generator.addProvider(true, new MDTFCPiercingLootProvider(output));
             generator.addProvider(true, new MDTFCDisabledRecipesProvider(output, "minersdelight"));
-            generator.addProvider(true, new MDTFCDisabledRecipesProvider(output, "miners_delight"));
-            generator.addProvider(true, new MDTFCProcessingRecipeProvider(output));
+            generator.addProvider(true, new MDTFCProcessingRecipeProvider(output, event.getLookupProvider()));
             MDTFCCookingRecipeProvider.gatherData(event, MinersDelightTFC.MOD_ID);
         }
     }

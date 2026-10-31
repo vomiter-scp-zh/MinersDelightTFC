@@ -2,11 +2,9 @@ package com.vomiter.minersdelighttfc.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.sammy.minersdelight.content.block.copper_pot.CopperPotMenu;
-import com.vomiter.minersdelighttfc.network.MDTFCNetwork;
+import net.neoforged.neoforge.network.PacketDistributor;
 import com.vomiter.minersdelighttfc.network.packet.OpenCopperPotFluidMenuC2SPacket;
-import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid.ICookingPotFluidAccess;
-import com.vomiter.survivorsdelight.network.SDNetwork;
-import com.vomiter.survivorsdelight.network.cooking_pot.OpenPotFluidMenuC2SPacket;
+import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid_handle.ICookingPotFluidAccess;
 import java.util.ArrayList;
 import java.util.List;
 import net.dries007.tfc.client.RenderHelpers;
@@ -18,9 +16,8 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
-import vectorwing.farmersdelight.common.block.entity.container.CookingPotMenu;
 
 public class CopperPotFluidButton extends AbstractButton {
     private final CopperPotMenu menu;
@@ -32,13 +29,12 @@ public class CopperPotFluidButton extends AbstractButton {
         this.basicTooltip = tooltip;
     }
 
-    public void render(@NotNull GuiGraphics gg, int mouseX, int mouseY, float partialTick) {
-        super.render(gg, mouseX, mouseY, partialTick);
+    private void renderFluidTooltip(@NotNull GuiGraphics gg, int mouseX, int mouseY) {
         List<Component> tooltips = new ArrayList<>();
         tooltips.add(this.basicTooltip);
         FluidStack stack = ((ICookingPotFluidAccess)this.menu.blockEntity).sdtfc$getTank().getFluid();
         if (!stack.isEmpty()) {
-            String var10001 = stack.getDisplayName().getString();
+            String var10001 = stack.getHoverName().getString();
             tooltips.add(Component.literal(var10001 + " " + stack.getAmount() + "/4000"));
         }
 
@@ -49,7 +45,7 @@ public class CopperPotFluidButton extends AbstractButton {
     }
 
     public void onPress() {
-        MDTFCNetwork.CHANNEL.sendToServer(new OpenCopperPotFluidMenuC2SPacket(this.menu.containerId, this.menu.blockEntity.getBlockPos()));
+        PacketDistributor.sendToServer(new OpenCopperPotFluidMenuC2SPacket(this.menu.containerId, this.menu.blockEntity.getBlockPos()));
     }
 
     protected void renderWidget(@NotNull GuiGraphics gg, int mouseX, int mouseY, float partialTick) {
@@ -68,6 +64,7 @@ public class CopperPotFluidButton extends AbstractButton {
             Item bucket = TFCItems.WOODEN_BUCKET.get();
             gg.renderItem(bucket.getDefaultInstance(), x, y);
         }
+        renderFluidTooltip(gg, mouseX, mouseY);
 
     }
 

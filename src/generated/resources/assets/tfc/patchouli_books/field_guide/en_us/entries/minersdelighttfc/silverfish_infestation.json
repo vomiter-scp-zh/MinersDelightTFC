@@ -1,7 +1,7 @@
 {
   "category": "tfc:miners_delight_tfc",
   "extra_recipe_mappings": {},
-  "icon": "miners_delight:silverfish_eggs",
+  "icon": "minersdelight:silverfish_eggs",
   "name": "Silverfish Infestations",
   "pages": [
     {
@@ -14,7 +14,7 @@
     },
     {
       "type": "patchouli:spotlight",
-      "item": "miners_delight:silverfish_eggs",
+      "item": "minersdelight:silverfish_eggs",
       "text": "When silverfish appear, you may also find silverfish eggs in the chest that attracted them, up to $(bold)five eggs$() at a time.$(br2)The eggs remain alongside the food, ready to collect. You can also obtain them through $(l:minersdelighttfc/piercing_harvests)piercing and gathering$()."
     }
   ],

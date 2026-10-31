@@ -1,0 +1,25 @@
+{
+  "type": "tfc:advanced_shapeless_crafting",
+  "ingredients": [
+    {
+      "item": "tfc:spindle"
+    },
+    {
+      "item": "minersdelight:gossypium"
+    }
+  ],
+  "primary_ingredient": {
+    "item": "tfc:spindle"
+  },
+  "remainder": {
+    "modifiers": [
+      {
+        "type": "tfc:damage_crafting_remainder"
+      }
+    ]
+  },
+  "result": {
+    "count": 2,
+    "id": "minecraft:string"
+  }
+}

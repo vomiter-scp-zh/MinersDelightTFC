@@ -23,7 +23,7 @@ import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -86,8 +86,8 @@ public abstract class HelpersInfestationMixin {
             silverfish.moveTo(target);
             if (!server.getWorldBorder().isWithinBounds(silverfish.getBoundingBox())
                     || !server.noCollision(silverfish)) continue;
-            ForgeEventFactory.onFinalizeSpawn(silverfish, server,
-                    server.getCurrentDifficultyAt(BlockPos.containing(target)), MobSpawnType.EVENT, null, null);
+            EventHooks.finalizeMobSpawn(silverfish, server,
+                    server.getCurrentDifficultyAt(BlockPos.containing(target)), MobSpawnType.EVENT, null);
             SilverfishInfestation.setOrigin(silverfish, pos);
             spawned |= server.addFreshEntity(silverfish);
         }

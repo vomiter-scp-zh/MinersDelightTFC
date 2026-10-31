@@ -15,11 +15,15 @@ import com.vomiter.minersdelighttfc.registry.MDTFCBlocks;
 import net.dries007.tfc.common.blockentities.TFCBlockEntities;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.dries007.tfc.common.capabilities.ItemCapabilities;
+import com.sammy.minersdelight.setup.MDBlockEntities;
+import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid_handle.ICookingPotFluidAccess;
+import net.neoforged.fml.loading.FMLEnvironment;
 import org.slf4j.Logger;
 
 import java.util.HashSet;
@@ -30,8 +34,9 @@ public final class MinersDelightTFC {
     public static final String MOD_ID = "minersdelighttfc";
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    public MinersDelightTFC() {
-        IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+    public MinersDelightTFC(IEventBus modBus) {
+        modBus.addListener(MDTFCNetwork::register);
+        modBus.addListener(this::registerCapabilities);
         MDTFCBlocks.register(modBus);
         MDTFCItems.register(modBus);
         MDTFCMenuTypes.register(modBus);
@@ -42,11 +47,11 @@ public final class MinersDelightTFC {
         if (FMLEnvironment.dist.isClient()){
             modBus.addListener(ClientSetup::setup);
             modBus.addListener(ClientSetup::registerItemColors);
+            modBus.addListener(ClientSetup::registerScreens);
         }
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
-        MDTFCNetwork.onCommonSetup(event);
         event.enqueueWork(() -> {
             BlockEntityTypeAccessor cropAccessor = (BlockEntityTypeAccessor) TFCBlockEntities.CROP.get();
             Set<Block> crops = new HashSet<>(cropAccessor.getValidBlocks());
@@ -62,7 +67,13 @@ public final class MinersDelightTFC {
         });
     }
 
+    private void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerItem(Capabilities.FluidHandler.ITEM, ItemCapabilities::forBucket, MDTFCItems.COPPER_CUP.get());
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, MDBlockEntities.COPPER_POT.get(),
+                (pot, side) -> ((ICookingPotFluidAccess) pot).sd$getFluidHandler());
+    }
+
     public static ResourceLocation id(String path) {
-        return new ResourceLocation(MOD_ID, path);
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 }

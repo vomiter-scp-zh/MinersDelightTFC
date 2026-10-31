@@ -7,7 +7,7 @@ import com.vomiter.minersdelighttfc.registry.MDTFCItems;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
@@ -19,7 +19,7 @@ public final class MDTFCCopperCupDataProvider implements DataProvider {
     private final boolean client;
 
     public MDTFCCopperCupDataProvider(PackOutput output, boolean server, boolean client) {
-        recipes = output.createPathProvider(PackOutput.Target.DATA_PACK, "recipes");
+        recipes = output.createPathProvider(PackOutput.Target.DATA_PACK, "recipe");
         models = output.createPathProvider(PackOutput.Target.RESOURCE_PACK, "models");
         this.server = server;
         this.client = client;
@@ -32,10 +32,10 @@ public final class MDTFCCopperCupDataProvider implements DataProvider {
             JsonObject recipe = new JsonObject();
             recipe.addProperty("type", "tfc:anvil");
             JsonObject input = new JsonObject();
-            input.addProperty("tag", "forge:sheets/copper");
-            recipe.add("input", input);
+            input.addProperty("tag", "c:sheets/copper");
+            recipe.add("ingredient", input);
             JsonObject result = new JsonObject();
-            result.addProperty("item", ForgeRegistries.ITEMS.getKey(MDTFCItems.COPPER_CUP.get()).toString());
+            result.addProperty("id", BuiltInRegistries.ITEM.getKey(MDTFCItems.COPPER_CUP.get()).toString());
             recipe.add("result", result);
             recipe.addProperty("tier", 1);
             JsonArray rules = new JsonArray();
@@ -48,10 +48,10 @@ public final class MDTFCCopperCupDataProvider implements DataProvider {
         }
         if (client) {
             JsonObject model = new JsonObject();
-            model.addProperty("loader", "tfc:contained_fluid");
-            model.addProperty("parent", "forge:item/default");
+            model.addProperty("loader", "tfc:fluid_container");
+            model.addProperty("parent", "neoforge:item/default");
             JsonObject textures = new JsonObject();
-            textures.addProperty("base", "miners_delight:item/copper_cup");
+            textures.addProperty("base", "minersdelight:item/copper_cup");
             textures.addProperty("fluid", "minersdelighttfc:item/copper_cup_fluid");
             model.add("textures", textures);
             saves.add(DataProvider.saveStable(output, model,

@@ -3,10 +3,10 @@
     {
       "ingredient": [
         {
-          "item": "miners_delight:arthropod"
+          "item": "minersdelight:arthropod"
         },
         {
-          "item": "miners_delight:silverfish_eggs"
+          "item": "minersdelight:silverfish_eggs"
         }
       ],
       "min": 2
@@ -15,6 +15,6 @@
   "meal": {
     "item": "tfc:food/wheat_bread_sandwich"
   },
-  "model": "miners_delight:item/insect_wrap",
+  "model": "minersdelight:item/insect_wrap",
   "priority": 80
 }

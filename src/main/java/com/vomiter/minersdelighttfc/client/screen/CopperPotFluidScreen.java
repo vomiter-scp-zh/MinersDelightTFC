@@ -4,10 +4,10 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.sammy.minersdelight.setup.MDBlocks;
 import com.vomiter.minersdelighttfc.MinersDelightTFC;
 import com.vomiter.minersdelighttfc.menu.CopperPotFluidMenu;
-import com.vomiter.minersdelighttfc.network.MDTFCNetwork;
+import net.neoforged.neoforge.network.PacketDistributor;
 import com.vomiter.minersdelighttfc.network.packet.OpenCopperPotMenuC2SPacket;
 import net.dries007.tfc.client.RenderHelpers;
-import net.dries007.tfc.util.Tooltips;
+import net.dries007.tfc.util.tooltip.Tooltips;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
@@ -16,7 +16,8 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 
 public final class CopperPotFluidScreen extends AbstractContainerScreen<CopperPotFluidMenu> {
@@ -37,7 +38,7 @@ public final class CopperPotFluidScreen extends AbstractContainerScreen<CopperPo
     }
 
     @Override public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        renderBackground(graphics);
+        renderBackground(graphics, mouseX, mouseY, partialTick);
         super.render(graphics, mouseX, mouseY, partialTick);
         renderTooltip(graphics, mouseX, mouseY);
     }
@@ -70,11 +71,11 @@ public final class CopperPotFluidScreen extends AbstractContainerScreen<CopperPo
             super(x, y, 16, 16, Component.translatable("gui.minersdelighttfc.open_cooking"));
         }
         @Override public void onPress() {
-            MDTFCNetwork.CHANNEL.sendToServer(new OpenCopperPotMenuC2SPacket());
+            PacketDistributor.sendToServer(new OpenCopperPotMenuC2SPacket());
         }
         @Override protected void renderWidget(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
             if (isHoveredOrFocused()) graphics.fill(getX() - 1, getY() - 1, getX() + 17, getY() + 17, 0x80FFFFFF);
-            graphics.renderItem(MDBlocks.COPPER_POT.asStack(), getX(), getY());
+            graphics.renderItem(new ItemStack(MDBlocks.COPPER_POT.get()), getX(), getY());
             if (isHoveredOrFocused()) {
                 graphics.renderTooltip(Minecraft.getInstance().font, getMessage(), mouseX, mouseY);
             }

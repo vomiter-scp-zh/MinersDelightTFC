@@ -1,0 +1,10 @@
+{
+  "ingredient": {
+    "item": "minersdelight:baked_spider_leg"
+  },
+  "hunger": 8,
+  "saturation": 1.6,
+  "water": 0.0,
+  "decay_modifier": 2.3,
+  "protein": 3.0
+}

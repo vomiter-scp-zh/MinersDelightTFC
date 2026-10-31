@@ -19,7 +19,9 @@ public final class CaveCarrotCropBlock extends DefaultCropBlock {
         super(properties, 4,
                 MDTFCBlocks.DEAD_CAVE_CARROT,
                 MDTFCItems.CAVE_CARROT_SEEDS,
-                Crop.CARROT.getPrimaryNutrient(),
+                Crop.CARROT.getNitrogen(),
+                Crop.CARROT.getPhosphorous(),
+                Crop.CARROT.getPotassium(),
                 Crop.CARROT.getClimateRange()
         );
     }

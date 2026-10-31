@@ -1,0 +1,54 @@
+{
+  "type": "survivorsdelight:nutrition_crafting_shapeless",
+  "balance_factor": 0.04,
+  "container": "minecraft:air",
+  "damage_tool": true,
+  "decay": 4.5,
+  "hunger": -1,
+  "vanilla": {
+    "type": "minecraft:crafting_shapeless",
+    "category": "misc",
+    "ingredients": [
+      {
+        "item": "minecraft:bowl"
+      },
+      {
+        "type": "tfc:and",
+        "children": [
+          {
+            "item": "minersdelight:silverfish_eggs"
+          },
+          {
+            "type": "tfc:not_rotten"
+          }
+        ]
+      },
+      {
+        "type": "tfc:and",
+        "children": [
+          {
+            "item": "minersdelight:silverfish_eggs"
+          },
+          {
+            "type": "tfc:not_rotten"
+          }
+        ]
+      },
+      {
+        "type": "tfc:and",
+        "children": [
+          {
+            "item": "minersdelight:silverfish_eggs"
+          },
+          {
+            "type": "tfc:not_rotten"
+          }
+        ]
+      }
+    ],
+    "result": {
+      "count": 1,
+      "id": "minersdelight:weird_caviar"
+    }
+  }
+}

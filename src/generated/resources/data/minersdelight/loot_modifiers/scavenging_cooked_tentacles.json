@@ -1,0 +1,39 @@
+{
+  "type": "minersdelight:modify_drops",
+  "conditions": [
+    {
+      "condition": "minersdelighttfc:piercing_damage"
+    },
+    {
+      "condition": "minecraft:entity_properties",
+      "entity": "this",
+      "predicate": {
+        "flags": {
+          "is_on_fire": true
+        }
+      }
+    },
+    {
+      "condition": "minecraft:any_of",
+      "terms": [
+        {
+          "condition": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "type": "minecraft:squid"
+          }
+        },
+        {
+          "condition": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "type": "minecraft:glow_squid"
+          }
+        }
+      ]
+    }
+  ],
+  "item": "minersdelight:baked_tentacles",
+  "max": 8,
+  "min": 1
+}

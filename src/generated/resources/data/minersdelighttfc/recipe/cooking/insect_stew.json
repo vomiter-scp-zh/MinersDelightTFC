@@ -1,0 +1,69 @@
+{
+  "type": "survivorsdelight:sd_cooking_pot",
+  "experience": 1.0,
+  "ingredients": [
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "tag": "c:foods/soup"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    },
+    {
+      "type": "tfc:and",
+      "children": [
+        [
+          {
+            "item": "minersdelight:arthropod"
+          },
+          {
+            "item": "minersdelight:silverfish_eggs"
+          }
+        ],
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    },
+    {
+      "type": "tfc:and",
+      "children": [
+        [
+          {
+            "item": "minersdelight:arthropod"
+          },
+          {
+            "item": "minersdelight:silverfish_eggs"
+          }
+        ],
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    },
+    {
+      "type": "tfc:and",
+      "children": [
+        [
+          {
+            "item": "minersdelight:arthropod"
+          },
+          {
+            "item": "minersdelight:silverfish_eggs"
+          }
+        ],
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "minersdelight:insect_stew"
+  }
+}

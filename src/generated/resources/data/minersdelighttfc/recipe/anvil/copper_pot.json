@@ -1,0 +1,16 @@
+{
+  "type": "tfc:anvil",
+  "ingredient": {
+    "item": "tfc:metal/double_sheet/copper"
+  },
+  "result": {
+    "count": 1,
+    "id": "minersdelight:copper_pot"
+  },
+  "rules": [
+    "bend_last",
+    "bend_second_last",
+    "bend_third_last"
+  ],
+  "tier": 1
+}

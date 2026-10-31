@@ -15,7 +15,7 @@ import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -128,7 +128,7 @@ public final class MDTFCBookEnUsProvider implements DataProvider {
     }
 
     private static String itemId(ItemLike item) {
-        return Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(item.asItem())).toString();
+        return Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item.asItem())).toString();
     }
 
     @Override

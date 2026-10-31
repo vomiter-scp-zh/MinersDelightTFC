@@ -33,7 +33,7 @@ public final class MDTFCFoodTagsProvider implements DataProvider {
     private final PackOutput.PathProvider tags;
 
     public MDTFCFoodTagsProvider(PackOutput output) {
-        tags = output.createPathProvider(PackOutput.Target.DATA_PACK, "tags/items");
+        tags = output.createPathProvider(PackOutput.Target.DATA_PACK, "tags/item");
     }
 
     @Override
@@ -65,8 +65,16 @@ public final class MDTFCFoodTagsProvider implements DataProvider {
         JsonArray values = new JsonArray();
         items.forEach(item -> values.add(item.toString()));
         tag.add("values", values);
+        String namespace = path.startsWith("foods/usable_in_") ? "tfc" : "c";
+        String target = switch (path) {
+            case "foods/raw_meats" -> "foods/raw_meat";
+            case "foods/cooked_meats" -> "foods/cooked_meat";
+            case "foods/meats" -> "foods/meat";
+            case "foods/vegetables" -> "foods/vegetable";
+            default -> path.startsWith("foods/usable_in_") ? path.substring(6) : path;
+        };
         writes.add(DataProvider.saveStable(cache, tag,
-                tags.json(ResourceLocation.fromNamespaceAndPath("tfc", path))));
+                tags.json(ResourceLocation.fromNamespaceAndPath(namespace, target))));
     }
 
     @Override

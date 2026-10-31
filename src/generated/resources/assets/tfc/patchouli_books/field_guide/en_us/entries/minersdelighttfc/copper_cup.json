@@ -15,7 +15,7 @@
     },
     {
       "type": "patchouli:spotlight",
-      "item": "miners_delight:cave_soup_cup",
+      "item": "minersdelight:cave_soup_cup",
       "text": "Use an empty copper cup to serve cave soup from a $(l:minersdelighttfc/copper_pot)copper pot$(), making a meal you can carry.$(br2)Its nutrition depends on the ingredients and portion size. Eating the meal returns the empty cup."
     }
   ],

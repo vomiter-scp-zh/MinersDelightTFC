@@ -1,0 +1,26 @@
+{
+  "type": "tfc:heating",
+  "ingredient": {
+    "type": "tfc:and",
+    "children": [
+      {
+        "item": "minersdelight:bat_wing"
+      },
+      {
+        "type": "tfc:not_rotten"
+      }
+    ]
+  },
+  "result_item": {
+    "modifiers": [
+      {
+        "type": "tfc:copy_food"
+      }
+    ],
+    "stack": {
+      "count": 1,
+      "id": "minersdelight:smoked_bat_wing"
+    }
+  },
+  "temperature": 200
+}

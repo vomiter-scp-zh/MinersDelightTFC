@@ -1,36 +1,44 @@
 plugins {
-    id 'eclipse'
-    id 'idea'
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
-    id 'org.spongepowered.mixin' version '0.7.+'
-    id 'com.vomiter.forge-base' version '0.1.0'
-    id 'com.vomiter.dev-runtime' version '0.1.0'
-    id 'com.vomiter.langmerge' version '0.1.0'
+    id 'java-library'
+    id 'maven-publish'
+    id 'net.neoforged.moddev' version '2.0.120'
 }
-
-vomiterMod { modId = mod_id }
-langMerge { modId = mod_id }
-
 version = mod_version
 group = mod_group_id
 base { archivesName = mod_id }
-
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
-
-minecraft {
-    mappings channel: mapping_channel, version: mapping_version
-    copyIdeResources = true
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+sourceSets.main.resources.srcDir 'src/generated/resources'
+repositories {
+    maven { url = 'https://www.cursemaven.com' }
+    maven { url = 'https://maven.blamejared.com' }
 }
-
-apply from: 'gradle/runs.gradle'
-apply from: 'gradle/publishing-local.gradle'
-apply from: 'gradle/mixin.gradle'
+neoForge {
+    version = neo_version
+    runs {
+        client { client() }
+        server { server(); programArgument '--nogui' }
+        data {
+            data()
+            programArguments.addAll '--mod', mod_id, '--all', '--output', file('src/generated/resources').absolutePath,
+                    '--existing', file('src/main/resources').absolutePath
+        }
+        configureEach { gameDirectory = file('run') }
+    }
+    mods { "${mod_id}" { sourceSet sourceSets.main } }
+}
 apply from: 'gradle/tfc-dep.gradle'
 apply from: 'gradle/optional-dep.gradle'
-
+apply from: 'gradle/publishing-local.gradle'
 dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    annotationProcessor("org.spongepowered:mixin:${mixin_version}:processor")
-    implementation fg.deobf("curse.maven:farmers-delight-398521:8083474")
-    implementation fg.deobf("curse.maven:miners-delight-plus-689630:8154984")
+    implementation 'curse.maven:farmers-delight-398521:8672744'
+    implementation 'curse.maven:miners-delight-plus-689630:8011049'
+    implementation 'curse.maven:lodestone-616457:6565028'
+}
+tasks.named('processResources', ProcessResources) {
+    def properties = [mod_id: mod_id, mod_name: mod_name, mod_version: mod_version,
+        mod_license: mod_license, mod_authors: mod_authors, mod_description: mod_description,
+        minecraft_version_range: minecraft_version_range, loader_version_range: loader_version_range,
+        neo_version_range: neo_version_range]
+    inputs.properties properties
+    filesMatching('META-INF/neoforge.mods.toml') { expand properties }
 }

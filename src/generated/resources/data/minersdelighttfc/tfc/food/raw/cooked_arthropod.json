@@ -1,0 +1,10 @@
+{
+  "ingredient": {
+    "item": "minersdelight:cooked_arthropod"
+  },
+  "hunger": 4,
+  "saturation": 0.8,
+  "water": 0.0,
+  "decay_modifier": 2.3,
+  "protein": 1.5
+}

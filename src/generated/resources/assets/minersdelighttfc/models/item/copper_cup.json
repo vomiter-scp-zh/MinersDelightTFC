@@ -1,8 +1,8 @@
 {
-  "parent": "forge:item/default",
-  "loader": "tfc:contained_fluid",
+  "parent": "neoforge:item/default",
+  "loader": "tfc:fluid_container",
   "textures": {
-    "base": "miners_delight:item/copper_cup",
+    "base": "minersdelight:item/copper_cup",
     "fluid": "minersdelighttfc:item/copper_cup_fluid"
   }
 }

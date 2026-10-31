@@ -1,7 +1,7 @@
 {
   "category": "tfc:miners_delight_tfc",
   "extra_recipe_mappings": {},
-  "icon": "miners_delight:copper_pot",
+  "icon": "minersdelight:copper_pot",
   "name": "Copper Pots",
   "pages": [
     {

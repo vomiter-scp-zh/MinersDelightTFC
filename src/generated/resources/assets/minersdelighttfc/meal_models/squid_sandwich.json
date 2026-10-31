@@ -3,10 +3,10 @@
     {
       "ingredient": [
         {
-          "item": "miners_delight:baked_squid"
+          "item": "minersdelight:baked_squid"
         },
         {
-          "item": "miners_delight:baked_tentacles"
+          "item": "minersdelight:baked_tentacles"
         },
         {
           "item": "tfc:food/cooked_calamari"
@@ -18,6 +18,6 @@
   "meal": {
     "item": "tfc:food/wheat_bread_sandwich"
   },
-  "model": "miners_delight:item/squid_sandwich",
+  "model": "minersdelight:item/squid_sandwich",
   "priority": 0
 }

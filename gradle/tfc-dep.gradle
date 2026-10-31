@@ -1,6 +1,6 @@
 dependencies {
-    implementation fg.deobf("curse.maven:terrafirmacraft-302973:6835820")
-    runtimeOnly fg.deobf("curse.maven:patchouli-306770:4636277")
-    implementation fg.deobf("curse.maven:survivors-abilities-1354890:7281675")
-    implementation fg.deobf("curse.maven:survivors-delight-1332913:9237755")
+    implementation 'curse.maven:terrafirmacraft-302973:7476548'
+    runtimeOnly 'curse.maven:patchouli-306770:7730942'
+    implementation 'curse.maven:survivors-abilities-1354890:7218876'
+    implementation 'curse.maven:survivors-delight-1332913:9317252'
 }

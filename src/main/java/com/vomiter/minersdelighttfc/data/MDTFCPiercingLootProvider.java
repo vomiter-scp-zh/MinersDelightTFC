@@ -7,7 +7,7 @@ import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
 public final class MDTFCPiercingLootProvider implements DataProvider {
-    private static final String MD = "miners_delight";
+    private static final String MD = "minersdelight";
     private final PackOutput.PathProvider output;
 
     public MDTFCPiercingLootProvider(PackOutput output) {
@@ -37,7 +37,7 @@ public final class MDTFCPiercingLootProvider implements DataProvider {
                 }
                 if (!rewriteKnifeConditions(json)) continue;
                 String path = root.relativize(file).toString().replace('\\', '/');
-                ResourceLocation id = new ResourceLocation(MD, path.substring(0, path.length() - 5));
+                ResourceLocation id = ResourceLocation.fromNamespaceAndPath(MD, path.substring(0, path.length() - 5));
                 saves.add(DataProvider.saveStable(cache, json, output.json(id)));
             }
         } catch (IOException e) {
@@ -53,23 +53,28 @@ public final class MDTFCPiercingLootProvider implements DataProvider {
         boolean changed = false;
         if (element.isJsonObject()) {
             JsonObject json = element.getAsJsonObject();
+            if (json.has("condition") && json.get("condition").getAsString().equals("neoforge:can_tool_perform_action")) {
+                json.addProperty("condition", "neoforge:can_item_perform_ability");
+                json.add("ability", json.remove("action"));
+                changed = true;
+            }
+            if (json.has("item") && json.get("item").getAsString().equals("minersdelight:baked_bat_wing")) {
+                json.addProperty("item", "minersdelight:smoked_bat_wing");
+                changed = true;
+            }
             if (json.has("condition") && json.get("condition").getAsString().equals("minecraft:entity_properties")
-                    && json.has("entity") && json.get("entity").getAsString().equals("killer")
+                    && json.has("entity") && (json.get("entity").getAsString().equals("attacker") || json.get("entity").getAsString().equals("killer"))
                     && json.has("predicate")) {
                 JsonObject predicate = json.getAsJsonObject("predicate");
                 if (predicate.has("equipment") && predicate.getAsJsonObject("equipment").has("mainhand")) {
                     JsonObject hand = predicate.getAsJsonObject("equipment").getAsJsonObject("mainhand");
-                    if (hand.has("tag") && hand.get("tag").getAsString().equals("farmersdelight:tools/knives")) {
+                    if (hand.has("items") && hand.get("items").getAsString().equals("#farmersdelight:tools/knives")) {
                         json.remove("entity");
                         json.remove("predicate");
                         json.addProperty("condition", "minersdelighttfc:piercing_damage");
                         return true;
                     }
                 }
-            }
-            // This backport shipped the 1.21 condition name in several modifiers.
-            if (json.has("condition") && json.get("condition").getAsString().equals("minecraft:any_of")) {
-                json.addProperty("condition", "minecraft:alternative");
             }
             for (var entry : json.entrySet()) changed |= rewriteKnifeConditions(entry.getValue());
         } else if (element.isJsonArray()) {

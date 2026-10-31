@@ -60,7 +60,7 @@ public final class MDTFCMealModelProvider implements DataProvider {
     private void save(CachedOutput cache, List<CompletableFuture<?>> writes, ResourceLocation item,
                       int priority, JsonObject... requirements) {
         JsonObject rule = new JsonObject();
-        rule.add("meal", Ingredient.of(TFCItems.FOOD.get(Food.WHEAT_BREAD_SANDWICH).get()).toJson());
+        rule.add("meal", MDTFCJson.ingredient(Ingredient.of(TFCItems.FOOD.get(Food.WHEAT_BREAD_SANDWICH).get())));
         rule.addProperty("priority", priority);
         rule.addProperty("model", item.getNamespace() + ":item/" + item.getPath());
         JsonArray ingredients = new JsonArray();
@@ -71,7 +71,7 @@ public final class MDTFCMealModelProvider implements DataProvider {
 
     private static JsonObject requirement(Ingredient ingredient, int min) {
         JsonObject requirement = new JsonObject();
-        requirement.add("ingredient", ingredient.toJson());
+        requirement.add("ingredient", MDTFCJson.ingredient(ingredient));
         requirement.addProperty("min", min);
         return requirement;
     }

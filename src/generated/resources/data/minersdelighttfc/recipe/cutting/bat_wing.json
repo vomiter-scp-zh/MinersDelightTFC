@@ -1,0 +1,28 @@
+{
+  "type": "survivorsdelight:sd_cutting",
+  "ingredients": [
+    {
+      "item": "minersdelight:bat_wing"
+    }
+  ],
+  "result": [
+    {
+      "type": "survivorsdelight:stack",
+      "stack": {
+        "count": 1,
+        "id": "minecraft:phantom_membrane"
+      }
+    },
+    {
+      "type": "survivorsdelight:stack",
+      "chance": 0.5,
+      "stack": {
+        "count": 2,
+        "id": "minecraft:phantom_membrane"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "c:tools/knife"
+  }
+}

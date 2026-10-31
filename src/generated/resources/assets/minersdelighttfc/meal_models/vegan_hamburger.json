@@ -2,7 +2,7 @@
   "ingredients": [
     {
       "ingredient": {
-        "item": "miners_delight:vegan_patty"
+        "item": "minersdelight:vegan_patty"
       },
       "min": 1
     },
@@ -27,6 +27,6 @@
   "meal": {
     "item": "tfc:food/wheat_bread_sandwich"
   },
-  "model": "miners_delight:item/vegan_hamburger",
+  "model": "minersdelight:item/vegan_hamburger",
   "priority": 90
 }

@@ -1,0 +1,46 @@
+{
+  "type": "survivorsdelight:sd_cooking_pot",
+  "experience": 1.0,
+  "ingredients": [
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "item": "minersdelight:crunchy_bar"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    },
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "item": "minersdelight:crunchy_bar"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    },
+    {
+      "type": "tfc:and",
+      "children": [
+        {
+          "tag": "c:foods/grain"
+        },
+        {
+          "type": "tfc:not_rotten"
+        }
+      ]
+    },
+    {
+      "tag": "tfc:foods/sweeteners"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "id": "minersdelight:nutritional_bar"
+  }
+}

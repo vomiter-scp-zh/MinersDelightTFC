@@ -6,7 +6,7 @@ import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,24 +15,24 @@ import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
 public final class MDTFCDisabledRecipesProvider implements DataProvider {
-    private static final String MD = "miners_delight";
+    private static final String MD = "minersdelight";
     private final PackOutput.PathProvider recipes;
     private final String namespace;
 
     public MDTFCDisabledRecipesProvider(PackOutput output, String namespace) {
-        recipes = output.createPathProvider(PackOutput.Target.DATA_PACK, "recipes");
+        recipes = output.createPathProvider(PackOutput.Target.DATA_PACK, "recipe");
         this.namespace = namespace;
     }
 
     @Override
     public CompletableFuture<?> run(CachedOutput cache) {
-        Path root = ModList.get().getModFileById(MD).getFile().findResource("data", namespace, "recipes");
+        Path root = ModList.get().getModFileById(MD).getFile().findResource("data", namespace, "recipe");
         JsonObject disabled = new JsonObject();
         JsonObject condition = new JsonObject();
-        condition.addProperty("type", "forge:false");
+        condition.addProperty("type", "neoforge:false");
         JsonArray conditions = new JsonArray();
         conditions.add(condition);
-        disabled.add("conditions", conditions);
+        disabled.add("neoforge:conditions", conditions);
         var saves = new ArrayList<CompletableFuture<?>>();
         try (var files = Files.walk(root)) {
             for (Path file : files.filter(p -> p.toString().endsWith(".json")).sorted().toList()) {

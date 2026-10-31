@@ -18,20 +18,20 @@ import net.minecraft.world.entity.monster.Silverfish;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.wrapper.InvWrapper;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
 
-@Mod.EventBusSubscriber(modid = MinersDelightTFC.MOD_ID)
+@EventBusSubscriber(modid = MinersDelightTFC.MOD_ID)
 public final class SilverfishInfestation {
     private static final String ORIGIN = MinersDelightTFC.MOD_ID + ":infestation_origin";
     private static final int INTERVAL = 100;
@@ -67,7 +67,7 @@ public final class SilverfishInfestation {
     }
 
     @SubscribeEvent
-    public static void onLivingTick(LivingEvent.LivingTickEvent event) {
+    public static void onLivingTick(EntityTickEvent.Post event) {
         if (!(event.getEntity() instanceof Silverfish silverfish)
                 || !(silverfish.level() instanceof ServerLevel server)
                 || !silverfish.isAlive() || silverfish.isNoAi()
@@ -109,7 +109,7 @@ public final class SilverfishInfestation {
     }
 
     private static @NotNull IItemHandler getInventory(BlockEntity blockEntity) {
-        IItemHandler inventory = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).orElse(null);
+        IItemHandler inventory = blockEntity.getLevel().getCapability(Capabilities.ItemHandler.BLOCK, blockEntity.getBlockPos(), null);
         return inventory != null ? inventory : blockEntity instanceof Container container ? new InvWrapper(container) : null;
     }
 

@@ -12,7 +12,6 @@ public abstract class CopperPotRecipeBookComponentMixin {
     @ModifyExpressionValue(
             method = "setupGhostRecipe",
             at = {
-                    @At(value = "INVOKE", target = "Lcom/sammy/minersdelight/repack/registrate/util/entry/ItemEntry;asStack()Lnet/minecraft/world/item/ItemStack;", remap = false),
                     @At(value = "INVOKE", target = "Lvectorwing/farmersdelight/common/crafting/CookingPotRecipe;getOutputContainer()Lnet/minecraft/world/item/ItemStack;", remap = false)
             },
             remap = true

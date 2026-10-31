@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "X": {
+      "tag": "c:rods/wooden"
+    },
+    "Y": {
+      "item": "minecraft:cobweb"
+    }
+  },
+  "pattern": [
+    "X X",
+    "Y Y",
+    "XYX"
+  ],
+  "result": {
+    "count": 1,
+    "id": "minersdelight:sticky_basket"
+  }
+}

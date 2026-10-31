@@ -18,7 +18,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -70,7 +70,7 @@ public final class MDTFCBookZhTwProvider implements DataProvider {
         PackOutput.PathProvider paths = output.createPathProvider(PackOutput.Target.RESOURCE_PACK,
                 "patchouli_books/field_guide/" + LANGUAGE + "/entries/" + MinersDelightTFC.MOD_ID);
         entries.forEach((path, json) -> saves.add(DataProvider.saveStable(cache, json,
-                paths.json(new ResourceLocation(TerraFirmaCraft.MOD_ID, path)))));
+                paths.json(ResourceLocation.fromNamespaceAndPath(TerraFirmaCraft.MOD_ID, path)))));
         return CompletableFuture.allOf(saves.toArray(CompletableFuture[]::new));
     }
 
@@ -181,7 +181,7 @@ public final class MDTFCBookZhTwProvider implements DataProvider {
     }
 
     private static String itemId(ItemLike item) {
-        return Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(item.asItem())).toString();
+        return Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item.asItem())).toString();
     }
 
     private static JsonObject finish(EntryJson.Builder builder, Map<? extends ItemLike, Integer> mappings,
@@ -194,8 +194,8 @@ public final class MDTFCBookZhTwProvider implements DataProvider {
         for (int i = 0; i < titles.length; i++) {
             pages.get(i).getAsJsonObject().addProperty("title", titles[i]);
         }
-        // MD uses Registrate entries, and MDTFC's cup has a RegistryObject subtype.
-        // SD's RegistryObject<Item> mapping overload cannot accept either directly.
+        // MD uses Registrate entries, and MDTFC's cup has a DeferredHolder subtype.
+        // SD's DeferredHolder<Item, Item> mapping overload cannot accept either directly.
         JsonObject extra = json.getAsJsonObject("extra_recipe_mappings");
         mappings.forEach((item, page) -> {
             if (page < 0 || page >= pages.size()) throw new IllegalArgumentException("Invalid book mapping page: " + page);

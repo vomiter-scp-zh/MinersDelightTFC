@@ -1,7 +1,7 @@
 {
   "category": "tfc:miners_delight_tfc",
   "extra_recipe_mappings": {},
-  "icon": "miners_delight:squid",
+  "icon": "minersdelight:squid",
   "name": "Piercing and Gathering",
   "pages": [
     {
@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:spotlight",
-      "item": "miners_delight:arthropod",
+      "item": "minersdelight:arthropod",
       "text": "Spiders and cave spiders provide arthropod meat.$(br2)Ordinary spiders may also drop spider legs. Silverfish killed with piercing damage yield arthropod meat and may drop eggs. For another source of eggs, see $(l:minersdelighttfc/silverfish_infestation)Silverfish Infestations$()."
     },
     {
@@ -19,7 +19,7 @@
     },
     {
       "type": "patchouli:spotlight",
-      "item": "miners_delight:glow_squid",
+      "item": "minersdelight:glow_squid",
       "text": "Hunt squid with piercing weapons to obtain whole squids. The same method yields whole glow squids from octopuses.$(br2)Cut them up, heat them, or use them to prepare stuffed dishes."
     }
   ],

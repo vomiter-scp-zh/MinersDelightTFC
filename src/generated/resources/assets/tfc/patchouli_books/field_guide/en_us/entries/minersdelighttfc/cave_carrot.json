@@ -3,7 +3,7 @@
   "extra_recipe_mappings": {
     "minersdelighttfc:seeds/cave_carrot": 0
   },
-  "icon": "miners_delight:cave_carrot",
+  "icon": "minersdelight:cave_carrot",
   "name": "Cave Carrots",
   "pages": [
     {
@@ -18,7 +18,7 @@
     },
     {
       "type": "patchouli:spotlight",
-      "item": "miners_delight:cave_carrot",
+      "item": "minersdelight:cave_carrot",
       "text": "Cave carrots draw $(bold)potassium$() from the soil. A good supply improves growth and harvests.$(br2)Harvest mature crops to gather cave carrots and recover seeds for replanting."
     },
     {

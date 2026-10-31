@@ -7,23 +7,26 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.sammy.minersdelight.content.block.copper_pot.CopperPotBlockEntity;
 import com.vomiter.minersdelighttfc.registry.MDTFCItems;
 import com.vomiter.survivorsdelight.adapter.cooking_pot.dynamic.CookingPotCookingHandler;
-import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid.ICookingPotFluidAccess;
+import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid_handle.ICookingPotFluidAccess;
 import com.vomiter.survivorsdelight.common.food.FoodContainerExpansion;
 import com.vomiter.survivorsdelight.data.tags.SDTags;
 import com.vomiter.survivorsdelight.util.FoodDataBuilder;
 import com.vomiter.survivorsdelight.util.FoodItemContainerApply;
-import net.dries007.tfc.common.capabilities.food.FoodCapability;
-import net.dries007.tfc.common.capabilities.food.FoodHandler;
-import net.dries007.tfc.common.capabilities.food.IFood;
+import net.dries007.tfc.common.component.food.FoodCapability;
+import net.dries007.tfc.common.component.TFCComponents;
+import net.minecraft.core.HolderLookup;
+import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
+import java.util.Optional;
+import net.dries007.tfc.common.component.food.IFood;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.nbt.CompoundTag;
+
+
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -49,12 +52,12 @@ public abstract class CopperPotBlockEntityMixin extends BlockEntity {
 
     @WrapOperation(
             method = {"canCook", "processCooking"},
-            at = @At(value = "INVOKE", target = "Lvectorwing/farmersdelight/common/crafting/CookingPotRecipe;getResultItem(Lnet/minecraft/core/RegistryAccess;)Lnet/minecraft/world/item/ItemStack;", remap = true)
+            at = @At(value = "INVOKE", target = "Lvectorwing/farmersdelight/common/crafting/CookingPotRecipe;assemble(Lnet/neoforged/neoforge/items/wrapper/RecipeWrapper;Lnet/minecraft/core/HolderLookup$Provider;)Lnet/minecraft/world/item/ItemStack;", remap = true)
     )
     private ItemStack mdtfc$dynamicResult(
-            CookingPotRecipe recipe, RegistryAccess access, Operation<ItemStack> original
+            CookingPotRecipe recipe, RecipeWrapper input, HolderLookup.Provider access, Operation<ItemStack> original
     ) {
-        ItemStack result = original.call(recipe, access);
+        ItemStack result = original.call(recipe, input, access);
         Level level = getLevel();
         ICookingPotFluidAccess fluidAccess = (ICookingPotFluidAccess) this;
         return level == null ? result.copy() : CookingPotCookingHandler.calculateDynamicOutput(
@@ -68,27 +71,22 @@ public abstract class CopperPotBlockEntityMixin extends BlockEntity {
 
     @WrapOperation(
             method = {"canCook", "processCooking"},
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;setTag(Lnet/minecraft/nbt/CompoundTag;)V", remap = true)
+            at = @At(value = "INVOKE", target = "Lcom/sammy/minersdelight/content/data/CupConversionDataMap;getCupVariant(Lnet/minecraft/world/item/ItemStack;)Ljava/util/Optional;")
     )
-    private void mdtfc$preserveCupFood(
-            ItemStack cup, CompoundTag tag, Operation<Void> original,
-            @Local(ordinal = 0) ItemStack meal
-    ) {
-        original.call(cup, tag == null ? null : tag.copy());
-        IFood mealFood = FoodCapability.get(meal);
-        if (mealFood == null || cup.isEmpty()
-                || !(FoodCapability.get(cup) instanceof FoodHandler.Dynamic cupFood)) return;
-
-        // The upstream conversion copies only the ordinary tag, not Forge capabilities.
-        // Divide each serving's food values by the actual increase in serving count.
-        float servingFactor = (float) meal.getCount() / cup.getCount();
-        cupFood.setFood(FoodDataBuilder.from(mealFood.getData()).mul(servingFactor).build());
-        cupFood.setCreationDate(mealFood.getCreationDate());
-        cupFood.getTraits().clear();
-        cupFood.getTraits().addAll(mealFood.getTraits());
-        if (mealFood instanceof FoodHandler.Dynamic dynamicMeal) {
-            cupFood.setIngredients(dynamicMeal.getIngredients().stream().map(ItemStack::copy).toList());
-        }
+    private Optional<ItemStack> mdtfc$preserveCupFood(ItemStack meal, Operation<Optional<ItemStack>> original) {
+        return original.call(meal).map(cup -> {
+            // Upstream adds one serving after this call. Scale to that final count.
+            var food = meal.get(TFCComponents.FOOD);
+            if (food != null) {
+                cup.set(TFCComponents.FOOD, food);
+                FoodCapability.setFoodForDynamicItemOnCreate(cup, FoodDataBuilder.from(food.getData())
+                        .mul((float) meal.getCount() / (cup.getCount() + 1)).build());
+                FoodCapability.setCreationDate(cup, food.getCreationDate());
+                var ingredients = meal.get(TFCComponents.INGREDIENTS);
+                if (ingredients != null) cup.set(TFCComponents.INGREDIENTS, ingredients);
+            }
+            return cup;
+        });
     }
 
     @WrapOperation(
@@ -134,7 +132,7 @@ public abstract class CopperPotBlockEntityMixin extends BlockEntity {
     @ModifyExpressionValue(
             method = "processCooking",
             at = {
-                    @At(value = "INVOKE", target = "Lcom/sammy/minersdelight/repack/registrate/util/entry/ItemEntry;asStack()Lnet/minecraft/world/item/ItemStack;"),
+                    @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getCraftingRemainingItem()Lnet/minecraft/world/item/ItemStack;", remap = false),
                     @At(value = "INVOKE", target = "Lvectorwing/farmersdelight/common/crafting/CookingPotRecipe;getOutputContainer()Lnet/minecraft/world/item/ItemStack;")
             }
     )

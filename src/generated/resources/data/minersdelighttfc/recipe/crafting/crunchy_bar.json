@@ -1,0 +1,100 @@
+{
+  "type": "survivorsdelight:nutrition_crafting_shapeless",
+  "balance_factor": 0.04,
+  "container": "minecraft:air",
+  "damage_tool": true,
+  "decay": 4.5,
+  "hunger": -1,
+  "vanilla": {
+    "type": "minecraft:crafting_shapeless",
+    "category": "misc",
+    "ingredients": [
+      {
+        "type": "tfc:and",
+        "children": [
+          {
+            "item": "minersdelight:cooked_arthropod"
+          },
+          {
+            "type": "tfc:not_rotten"
+          }
+        ]
+      },
+      {
+        "type": "tfc:and",
+        "children": [
+          {
+            "item": "minersdelight:cooked_arthropod"
+          },
+          {
+            "type": "tfc:not_rotten"
+          }
+        ]
+      },
+      {
+        "type": "tfc:and",
+        "children": [
+          {
+            "item": "minersdelight:cooked_arthropod"
+          },
+          {
+            "type": "tfc:not_rotten"
+          }
+        ]
+      },
+      {
+        "type": "tfc:and",
+        "children": [
+          [
+            {
+              "item": "minersdelight:cooked_arthropod"
+            },
+            {
+              "item": "minersdelight:silverfish_eggs"
+            }
+          ],
+          {
+            "type": "tfc:not_rotten"
+          }
+        ]
+      },
+      {
+        "type": "tfc:and",
+        "children": [
+          {
+            "item": "minersdelight:silverfish_eggs"
+          },
+          {
+            "type": "tfc:not_rotten"
+          }
+        ]
+      },
+      {
+        "type": "tfc:and",
+        "children": [
+          {
+            "item": "minersdelight:silverfish_eggs"
+          },
+          {
+            "type": "tfc:not_rotten"
+          }
+        ]
+      },
+      {
+        "type": "tfc:and",
+        "children": [
+          {
+            "item": "minersdelight:silverfish_eggs"
+          },
+          {
+            "type": "tfc:not_rotten"
+          }
+        ]
+      }
+    ],
+    "result": {
+      "count": 4,
+      "id": "minersdelight:crunchy_bar"
+    }
+  }
+}

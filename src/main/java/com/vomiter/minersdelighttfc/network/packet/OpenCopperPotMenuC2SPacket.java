@@ -1,46 +1,26 @@
 package com.vomiter.minersdelighttfc.network.packet;
 
-import com.vomiter.survivorsdelight.adapter.cooking_pot.fluid.SDCookingPotFluidMenu;
-import java.util.function.Supplier;
-
-import net.minecraft.core.BlockPos;
+import com.vomiter.minersdelighttfc.MinersDelightTFC;
+import com.vomiter.minersdelighttfc.menu.CopperPotFluidMenu;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleMenuProvider;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.NetworkHooks;
-import vectorwing.farmersdelight.common.block.entity.CookingPotBlockEntity;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-public record OpenCopperPotMenuC2SPacket() {
-    public static void encode(OpenCopperPotMenuC2SPacket pkt, FriendlyByteBuf buf) {
-    }
+public record OpenCopperPotMenuC2SPacket() implements CustomPacketPayload {
+    public static final Type<OpenCopperPotMenuC2SPacket> TYPE = new Type<>(MinersDelightTFC.id("open_cooking_menu"));
+    public static final StreamCodec<FriendlyByteBuf, OpenCopperPotMenuC2SPacket> STREAM_CODEC =
+            StreamCodec.unit(new OpenCopperPotMenuC2SPacket());
 
-    public static OpenCopperPotMenuC2SPacket decode(FriendlyByteBuf buf) {
-        return new OpenCopperPotMenuC2SPacket();
-    }
+    @Override public Type<OpenCopperPotMenuC2SPacket> type() { return TYPE; }
 
-    public static void handle(OpenCopperPotMenuC2SPacket pkt, Supplier<NetworkEvent.Context> ctx) {
-        NetworkEvent.Context c = (NetworkEvent.Context)ctx.get();
-        c.enqueueWork(() -> {
-            ServerPlayer sp = c.getSender();
-            if (sp != null) {
-                AbstractContainerMenu patt1074$temp = sp.containerMenu;
-                if (patt1074$temp instanceof SDCookingPotFluidMenu) {
-                    SDCookingPotFluidMenu m = (SDCookingPotFluidMenu)patt1074$temp;
-                    BlockPos pos = m.getPos();
-                    BlockEntity be = sp.level().getBlockEntity(pos);
-                    if (be instanceof CookingPotBlockEntity) {
-                        CookingPotBlockEntity pot = (CookingPotBlockEntity)be;
-                        NetworkHooks.openScreen(sp, pot, pos);
-                    }
-                }
-
+    public static void handle(OpenCopperPotMenuC2SPacket packet, IPayloadContext context) {
+        context.enqueueWork(() -> {
+            if (context.player() instanceof ServerPlayer player
+                    && player.containerMenu instanceof CopperPotFluidMenu menu && menu.stillValid(player)) {
+                player.openMenu(menu.getPot(), menu.getPos());
             }
         });
-        c.setPacketHandled(true);
     }
 }

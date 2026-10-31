@@ -3,24 +3,24 @@
     {
       "ingredient": [
         {
-          "item": "miners_delight:vegan_patty"
+          "item": "minersdelight:vegan_patty"
         },
         {
-          "item": "miners_delight:crunchy_bar"
+          "item": "minersdelight:crunchy_bar"
         }
       ],
       "min": 1
     },
     {
       "ingredient": {
-        "item": "miners_delight:smoked_bat_wing"
+        "item": "minersdelight:smoked_bat_wing"
       },
       "min": 1
     },
     {
       "ingredient": [
         {
-          "item": "miners_delight:baked_tentacles"
+          "item": "minersdelight:baked_tentacles"
         },
         {
           "item": "tfc:food/cooked_calamari"
@@ -32,6 +32,6 @@
   "meal": {
     "item": "tfc:food/wheat_bread_sandwich"
   },
-  "model": "miners_delight:item/cave_hamburger",
+  "model": "minersdelight:item/cave_hamburger",
   "priority": 100
 }
